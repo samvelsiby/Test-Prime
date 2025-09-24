@@ -1,5 +1,10 @@
 import { useEffect, useRef, useState } from 'react';
 import Head from 'next/head';
+import { CardCollage } from '../components';
+import SystemsShowcase from '../components/SystemsShowcase';
+import Roadmap from '../components/Roadmap';
+import FAQ from '../components/FAQ';
+import Footer from '../components/Footer';
 
 // Particle System Component
 const ParticleSystem = () => {
@@ -83,7 +88,17 @@ const BackgroundVideo = () => {
         const hls = new Hls({
           debug: false,
           enableWorker: true,
-          lowLatencyMode: true,
+          lowLatencyMode: false,
+          maxBufferLength: 30,
+          maxMaxBufferLength: 60,
+          maxBufferSize: 60 * 1000 * 1000,
+          maxBufferHole: 0.5,
+          highBufferWatchdogPeriod: 2,
+          nudgeOffset: 0.1,
+          nudgeMaxRetry: 3,
+          maxFragLookUpTolerance: 0.25,
+          liveSyncDurationCount: 3,
+          liveMaxLatencyDurationCount: 10,
         });
         
         hls.loadSource(videoSrc);
@@ -97,12 +112,27 @@ const BackgroundVideo = () => {
         });
         
         hls.on(Hls.Events.ERROR, function(event, data) {
-          console.error('HLS error:', data);
+          // Only log fatal errors to reduce console spam
           if (data.fatal) {
-            console.log('Fatal HLS error, falling back to MP4');
-            video.src = 'https://customer-pyq7haxijl6gyz2i.cloudflarestream.com/5c79505553e17a1ce57ba51d5da60f28/downloads/default.mp4';
-            video.load();
+            console.error('Fatal HLS error:', data.type, data.details);
+            switch (data.type) {
+              case Hls.ErrorTypes.NETWORK_ERROR:
+                console.log('Network error, trying to recover...');
+                hls.startLoad();
+                break;
+              case Hls.ErrorTypes.MEDIA_ERROR:
+                console.log('Media error, trying to recover...');
+                hls.recoverMediaError();
+                break;
+              default:
+                console.log('Unrecoverable error, falling back to MP4');
+                hls.destroy();
+                video.src = 'https://customer-pyq7haxijl6gyz2i.cloudflarestream.com/5c79505553e17a1ce57ba51d5da60f28/downloads/default.mp4';
+                video.load();
+                break;
+            }
           }
+          // Ignore non-fatal buffer stalled errors to reduce console spam
         });
         
       } else if (video.canPlayType('application/vnd.apple.mpegurl')) {
@@ -333,6 +363,29 @@ export default function Home() {
 
       {/* Navigation */}
       <Navigation />
+
+      {/* Card Collage Section */}
+      <section style={{ minHeight: '100vh', padding: '4rem 0', background: 'rgba(0, 0, 0, 0.8)' }}>
+        <CardCollage />
+      </section>
+
+      {/* Systems Showcase Section */}
+      <section style={{ minHeight: '100vh' }}>
+        <SystemsShowcase />
+      </section>
+
+      {/* Roadmap Section */}
+      <section style={{ minHeight: '100vh', background: 'rgba(0, 0, 0, 0.9)' }}>
+        <Roadmap />
+      </section>
+
+      {/* FAQ Section */}
+      <section style={{ minHeight: '100vh' }}>
+        <FAQ />
+      </section>
+
+      {/* Footer */}
+      <Footer />
     </>
   );
 }

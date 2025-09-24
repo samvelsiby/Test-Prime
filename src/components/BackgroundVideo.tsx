@@ -10,51 +10,72 @@ const BackgroundVideo = () => {
     const video = videoRef.current;
     if (!video) return;
 
-    // Initialize HLS for Cloudflare Stream
-    const initializeCloudflareStream = async () => {
+    const playVideo = () => {
+      video.play().catch(error => {
+        console.log('Autoplay failed, will play on user interaction:', error);
+      });
+    };
+
+    const initializeVideo = async () => {
       const videoSrc = 'https://customer-pyq7haxijl6gyz2i.cloudflarestream.com/5c79505553e17a1ce57ba51d5da60f28/manifest/video.m3u8';
       
-      // Dynamically import HLS.js
-      const Hls = (await import('hls.js')).default;
-      
-      if (Hls.isSupported()) {
-        console.log('HLS is supported, using HLS.js');
-        const hls = new Hls({
-          debug: false,
-          enableWorker: true,
-          lowLatencyMode: true,
-        });
+      try {
+        // Dynamically import HLS.js
+        const HlsModule = await import('hls.js');
+        const Hls = HlsModule.default;
         
-        hls.loadSource(videoSrc);
-        hls.attachMedia(video);
-        
-        hls.on(Hls.Events.MANIFEST_PARSED, function() {
-          console.log('HLS manifest parsed, starting video');
-          video.play().catch(error => {
-            console.log('Autoplay failed, will play on user interaction:', error);
+        if (Hls.isSupported()) {
+          console.log('HLS is supported, using HLS.js');
+          const hls = new Hls({
+            enableWorker: true,
+            lowLatencyMode: false,
           });
-        });
-        
-        hls.on(Hls.Events.ERROR, function(event, data) {
-          console.error('HLS error:', data);
-          if (data.fatal) {
-            console.log('Fatal HLS error, falling back to MP4');
-            video.src = 'https://customer-pyq7haxijl6gyz2i.cloudflarestream.com/5c79505553e17a1ce57ba51d5da60f28/downloads/default.mp4';
-            video.load();
-          }
-        });
-        
-      } else if (video.canPlayType('application/vnd.apple.mpegurl')) {
-        console.log('Native HLS support detected');
-        video.src = videoSrc;
-        video.addEventListener('loadedmetadata', () => {
-          video.play().catch(error => {
-            console.log('Autoplay failed, will play on user interaction:', error);
+          
+          hls.loadSource(videoSrc);
+          hls.attachMedia(video);
+          
+          hls.on(Hls.Events.MANIFEST_PARSED, () => {
+            console.log('HLS manifest parsed, attempting to play');
+            playVideo();
           });
-        });
-      } else {
-        console.log('HLS not supported, using MP4 fallback');
-        video.src = 'https://customer-pyq7haxijl6gyz2i.cloudflarestream.com/5c79505553e17a1ce57ba51d5da60f28/downloads/default.mp4';
+          
+          hls.on(Hls.Events.ERROR, (event, data) => {
+            // Only log fatal errors, ignore buffer stalled errors
+            if (data.fatal) {
+              console.error('Fatal HLS error:', data);
+              // Try to recover from fatal errors
+              if (data.type === 'mediaError') {
+                hls.recoverMediaError();
+              } else if (data.type === 'networkError') {
+                // Reload the source for network errors
+                hls.startLoad();
+              } else {
+                // For other fatal errors, destroy and recreate
+                hls.destroy();
+                // Fallback to native video
+                if (video.canPlayType('application/vnd.apple.mpegurl')) {
+                  video.src = videoSrc;
+                  video.load();
+                }
+              }
+            }
+            // Ignore non-fatal buffer stalled errors as they're normal
+          });
+        } else if (video.canPlayType('application/vnd.apple.mpegurl')) {
+          console.log('Native HLS support detected');
+          video.src = videoSrc;
+          video.addEventListener('loadedmetadata', playVideo);
+        } else {
+          console.error('HLS is not supported in this browser');
+        }
+      } catch (error) {
+        console.error('Failed to load HLS.js:', error);
+        // Fallback to native HLS support
+        if (video.canPlayType('application/vnd.apple.mpegurl')) {
+          console.log('Falling back to native HLS support');
+          video.src = videoSrc;
+          video.addEventListener('loadedmetadata', playVideo);
+        }
       }
     };
 
@@ -66,9 +87,7 @@ const BackgroundVideo = () => {
     const handleCanPlay = () => {
       console.log('Video can play');
       if (video.paused) {
-        video.play().catch(error => {
-          console.error('Error playing video:', error);
-        });
+        playVideo();
       }
     };
 
@@ -125,7 +144,7 @@ const BackgroundVideo = () => {
     video.addEventListener('error', handleError);
 
     // Initialize video
-    initializeCloudflareStream();
+    initializeVideo();
 
     // Cleanup
     return () => {
