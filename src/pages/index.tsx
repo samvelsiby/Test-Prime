@@ -1,0 +1,338 @@
+import { useEffect, useRef, useState } from 'react';
+import Head from 'next/head';
+
+// Particle System Component
+const ParticleSystem = () => {
+  const containerRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const container = containerRef.current;
+    if (!container) return;
+
+    const maxParticles = 40;
+    const particles: HTMLDivElement[] = [];
+
+    const createParticle = () => {
+      const particle = document.createElement('div');
+      particle.className = 'particle';
+      
+      // Random size (mostly small)
+      const sizes = ['small', 'small', 'small', 'medium']; // 75% small, 25% medium
+      const size = sizes[Math.floor(Math.random() * sizes.length)];
+      particle.classList.add(size);
+      
+      // Only place particles in non-video areas
+      const isTopArea = Math.random() > 0.5;
+      
+      if (isTopArea) {
+        // Top area (above video)
+        particle.style.top = Math.random() * 20 + '%';
+      } else {
+        // Bottom area (below video)  
+        particle.style.top = (70 + Math.random() * 30) + '%';
+      }
+      
+      // Random horizontal position
+      particle.style.left = Math.random() * 100 + '%';
+      
+      // Random animation delay for twinkling effect
+      particle.style.animationDelay = Math.random() * 3 + 's';
+      
+      container.appendChild(particle);
+      particles.push(particle);
+    };
+
+    // Create particles
+    for (let i = 0; i < maxParticles; i++) {
+      createParticle();
+    }
+
+    // Cleanup function
+    return () => {
+      particles.forEach(particle => {
+        if (particle.parentNode) {
+          particle.parentNode.removeChild(particle);
+        }
+      });
+    };
+  }, []);
+
+  return <div id="particles-container" ref={containerRef}></div>;
+};
+
+// Background Video Component
+const BackgroundVideo = () => {
+  const videoRef = useRef<HTMLVideoElement>(null);
+  const [hasPlayedOnce, setHasPlayedOnce] = useState(false);
+  const loopStartTime = 2.01;
+  const loopEndTime = 29.24;
+
+  useEffect(() => {
+    const video = videoRef.current;
+    if (!video) return;
+
+    // Initialize HLS for Cloudflare Stream
+    const initializeCloudflareStream = async () => {
+      const videoSrc = 'https://customer-pyq7haxijl6gyz2i.cloudflarestream.com/5c79505553e17a1ce57ba51d5da60f28/manifest/video.m3u8';
+      
+      // Dynamically import HLS.js
+      const Hls = (await import('hls.js')).default;
+      
+      if (Hls.isSupported()) {
+        console.log('HLS is supported, using HLS.js');
+        const hls = new Hls({
+          debug: false,
+          enableWorker: true,
+          lowLatencyMode: true,
+        });
+        
+        hls.loadSource(videoSrc);
+        hls.attachMedia(video);
+        
+        hls.on(Hls.Events.MANIFEST_PARSED, function() {
+          console.log('HLS manifest parsed, starting video');
+          video.play().catch(error => {
+            console.log('Autoplay failed, will play on user interaction:', error);
+          });
+        });
+        
+        hls.on(Hls.Events.ERROR, function(event, data) {
+          console.error('HLS error:', data);
+          if (data.fatal) {
+            console.log('Fatal HLS error, falling back to MP4');
+            video.src = 'https://customer-pyq7haxijl6gyz2i.cloudflarestream.com/5c79505553e17a1ce57ba51d5da60f28/downloads/default.mp4';
+            video.load();
+          }
+        });
+        
+      } else if (video.canPlayType('application/vnd.apple.mpegurl')) {
+        console.log('Native HLS support detected');
+        video.src = videoSrc;
+        video.addEventListener('loadedmetadata', () => {
+          video.play().catch(error => {
+            console.log('Autoplay failed, will play on user interaction:', error);
+          });
+        });
+      } else {
+        console.log('HLS not supported, using MP4 fallback');
+        video.src = 'https://customer-pyq7haxijl6gyz2i.cloudflarestream.com/5c79505553e17a1ce57ba51d5da60f28/downloads/default.mp4';
+      }
+    };
+
+    // Video event handlers
+    const handleLoadedMetadata = () => {
+      console.log('Video loaded, duration:', video.duration);
+    };
+
+    const handleCanPlay = () => {
+      console.log('Video can play');
+      if (video.paused) {
+        video.play().catch(error => {
+          console.error('Error playing video:', error);
+        });
+      }
+    };
+
+    const handleTimeUpdate = () => {
+      if (!hasPlayedOnce) {
+        // First play - let it play completely
+        if (video.currentTime >= video.duration - 0.1) {
+          setHasPlayedOnce(true);
+          video.currentTime = loopStartTime;
+          console.log('First play complete, starting custom loop');
+        }
+      } else {
+        // Subsequent plays - loop from 2.01 to 29.24
+        if (video.currentTime >= loopEndTime) {
+          video.currentTime = loopStartTime;
+          console.log('Loop: jumping back to', loopStartTime);
+        }
+      }
+    };
+
+    const handleEnded = () => {
+      console.log('Video ended event triggered');
+      setHasPlayedOnce(true);
+      video.currentTime = loopStartTime;
+      video.play().then(() => {
+        console.log('Video restarted successfully');
+      }).catch(error => {
+        console.error('Error restarting video:', error);
+      });
+    };
+
+    const handlePause = () => {
+      if (!video.ended) {
+        console.log('Video paused, resuming...');
+        video.play();
+      }
+    };
+
+    const handleError = (e: Event) => {
+      console.error('Video error:', e);
+      // Fallback: show a message or alternative content
+      const overlay = document.querySelector('.content-overlay') as HTMLElement;
+      if (overlay) {
+        overlay.style.background = 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)';
+      }
+    };
+
+    // Add event listeners
+    video.addEventListener('loadedmetadata', handleLoadedMetadata);
+    video.addEventListener('canplay', handleCanPlay);
+    video.addEventListener('timeupdate', handleTimeUpdate);
+    video.addEventListener('ended', handleEnded);
+    video.addEventListener('pause', handlePause);
+    video.addEventListener('error', handleError);
+
+    // Initialize video
+    initializeCloudflareStream();
+
+    // Cleanup
+    return () => {
+      video.removeEventListener('loadedmetadata', handleLoadedMetadata);
+      video.removeEventListener('canplay', handleCanPlay);
+      video.removeEventListener('timeupdate', handleTimeUpdate);
+      video.removeEventListener('ended', handleEnded);
+      video.removeEventListener('pause', handlePause);
+      video.removeEventListener('error', handleError);
+    };
+  }, [hasPlayedOnce]);
+
+  return (
+    <video 
+      ref={videoRef}
+      id="background-video"
+      autoPlay 
+      muted 
+      playsInline 
+      preload="auto"
+    >
+      <source src="https://customer-pyq7haxijl6gyz2i.cloudflarestream.com/5c79505553e17a1ce57ba51d5da60f28/manifest/video.m3u8" type="application/x-mpegURL" />
+      <source src="https://customer-pyq7haxijl6gyz2i.cloudflarestream.com/5c79505553e17a1ce57ba51d5da60f28/downloads/default.mp4" type="video/mp4" />
+      Your browser does not support the video tag.
+    </video>
+  );
+};
+
+// Button Component with Ripple Effect
+const RippleButton = ({ children, className, onClick }: { children: React.ReactNode, className: string, onClick?: () => void }) => {
+  const buttonRef = useRef<HTMLButtonElement>(null);
+
+  const handleClick = (e: React.MouseEvent<HTMLButtonElement>) => {
+    const button = buttonRef.current;
+    if (!button) return;
+
+    // Create ripple effect
+    const ripple = document.createElement('span');
+    const rect = button.getBoundingClientRect();
+    const size = Math.max(rect.width, rect.height);
+    const x = e.clientX - rect.left - size / 2;
+    const y = e.clientY - rect.top - size / 2;
+    
+    ripple.style.width = ripple.style.height = size + 'px';
+    ripple.style.left = x + 'px';
+    ripple.style.top = y + 'px';
+    ripple.classList.add('ripple');
+    
+    button.appendChild(ripple);
+    
+    setTimeout(() => {
+      ripple.remove();
+    }, 600);
+
+    if (onClick) onClick();
+  };
+
+  return (
+    <button ref={buttonRef} className={className} onClick={handleClick}>
+      {children}
+    </button>
+  );
+};
+
+// Navigation Component
+const Navigation = () => {
+  useEffect(() => {
+    const handleScroll = () => {
+      const navbar = document.querySelector('.navbar') as HTMLElement;
+      if (navbar) {
+        if (window.scrollY > 50) {
+          navbar.style.background = 'rgba(0, 0, 0, 0.9)';
+        } else {
+          navbar.style.background = 'rgba(0, 0, 0, 0.1)';
+        }
+      }
+    };
+
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
+  const handleSmoothScroll = (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
+    e.preventDefault();
+    const target = document.querySelector(href);
+    if (target) {
+      target.scrollIntoView({
+        behavior: 'smooth'
+      });
+    }
+  };
+
+  return (
+    <nav className="navbar">
+      <div className="nav-brand">
+        <h2>Brand</h2>
+      </div>
+      <ul className="nav-links">
+        <li><a href="#home" onClick={(e) => handleSmoothScroll(e, '#home')}>Home</a></li>
+        <li><a href="#about" onClick={(e) => handleSmoothScroll(e, '#about')}>About</a></li>
+        <li><a href="#services" onClick={(e) => handleSmoothScroll(e, '#services')}>Services</a></li>
+        <li><a href="#contact" onClick={(e) => handleSmoothScroll(e, '#contact')}>Contact</a></li>
+      </ul>
+    </nav>
+  );
+};
+
+// Main Home Component
+export default function Home() {
+  const handleWaitlistClick = () => {
+    // Open Formly waitlist form
+    window.open('https://getformly.app/vJXW3N', '_blank');
+  };
+
+  return (
+    <>
+      <Head>
+        <title>Prime Verse - More Than Trading</title>
+        <meta name="description" content="Prime Verse - More Than Trading" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+        <link rel="alternate icon" href="/favicon.svg" />
+        <link rel="mask-icon" href="/favicon.svg" color="#015BF9" />
+      </Head>
+
+      {/* Background Video */}
+      <BackgroundVideo />
+
+      {/* Particles only in non-video areas */}
+      <ParticleSystem />
+
+      {/* Content Overlay */}
+      <div className="content-overlay">
+        <div className="hero-content">
+          <h1 className="hero-title">PRIME VERSE</h1>
+          <p className="hero-subtitle">MORE THAN TRADING</p>
+          <div className="hero-buttons">
+            <RippleButton className="btn btn-primary" onClick={handleWaitlistClick}>
+              JOIN THE WAITLIST
+            </RippleButton>
+          </div>
+        </div>
+      </div>
+
+      {/* Navigation */}
+      <Navigation />
+    </>
+  );
+}
