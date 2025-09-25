@@ -25,14 +25,15 @@ const cardData: Card[] = [
     description: "Comprehensive educational resources and tutorials designed for traders of all skill levels.",
     backgroundColor: "linear-gradient(135deg, #ffffff 0%, #ffffff 100%)",
     textColor: "#000000",
-    backgroundImage: "/images/Writingh.png"
+    backgroundImage: "/images/learn.png"
   },
   {
     id: 3,
     title: "SYPHON AI",
     description: "Advanced AI-powered trading insights and market analysis to enhance your trading decisions.",
     backgroundColor: "linear-gradient(135deg, #60098F 0%, #BC61ED 100%)",
-    textColor: "#ffffff"
+    textColor: "#ffffff",
+    backgroundImage: "/images/syphonai2.png"
   },
   {
     id: 4,
@@ -46,15 +47,16 @@ const cardData: Card[] = [
     id: 5,
     title: "TRADE ALERTS",
     description: "Instant notifications for market opportunities and important trading signals.",
-    backgroundColor: "linear-gradient(135deg, #858B9E 0%, #D0D3DB 100%)",
-    textColor: "#000000"
+    backgroundColor: "linear-gradient(135deg, #0820A8 0%, #106DF8 100%)",
+    textColor: "#ffffff",
+    backgroundImage: "/images/trade.png"
   },
   {
     id: 6,
     title: "LIVE MENTORSHIP CALLS",
     description: "Direct access to experienced traders through live sessions and personalized guidance.",
-    backgroundColor: "linear-gradient(135deg, #0820A8 0%, #106DF8 100%)",
-    textColor: "#ffffff",
+    backgroundColor: "linear-gradient(135deg, #858B9E 0%, #D0D3DB 100%)",
+    textColor: "#000000",
     backgroundImage: "/images/Livecalls.png"
   },
   {
@@ -86,7 +88,8 @@ const cardData: Card[] = [
     title: "AFFILIATE TRAINING",
     description: "Learn how to build a successful affiliate business and generate passive income streams.",
     backgroundColor: "linear-gradient(135deg, #0F0CE2 0%, #0157FA 100%)",
-    textColor: "#ffffff"
+    textColor: "#ffffff",
+    backgroundImage: "/images/affliate.png"
   }
 ];
 

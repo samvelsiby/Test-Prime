@@ -1,16 +1,15 @@
 .container {
   width: 100%;
-  min-height: 100vh;
   background: linear-gradient(135deg, rgba(255, 255, 255, 0.1) 0%, rgba(255, 255, 255, 0.05) 50%, rgba(0, 0, 0, 0.1) 100%);
   backdrop-filter: blur(15px);
   -webkit-backdrop-filter: blur(15px);
   border: 1px solid rgba(255, 255, 255, 0.1);
   box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
-  padding: 2rem;
+  padding: 2rem 2rem 2rem 2rem;
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
+  justify-content: flex-start;
   position: relative;
   overflow: hidden;
 }
@@ -27,15 +26,15 @@
 
 .header {
   text-align: center;
-  margin-bottom: 3rem;
+  margin-bottom: 1rem;
   z-index: 10;
   position: relative;
 }
 
 .title {
-  font-family: 'Gonero-ExtraExpanded', 'Arial Black', sans-serif;
+  font-family: 'Poppins', sans-serif;
   font-size: 2.5rem;
-  font-weight: bold;
+  font-weight: 700;
   color: #ffffff;
   text-transform: uppercase;
   letter-spacing: 0.05em;
@@ -62,7 +61,7 @@
 }
 
 .systemCard {
-  background: linear-gradient(135deg, rgba(255, 255, 255, 0.15) 0%, rgba(255, 255, 255, 0.05) 100%);
+  background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
   border: 1px solid rgba(255, 255, 255, 0.2);
@@ -100,24 +99,44 @@
 
 /* Oracle card background */
 .systemCard:nth-child(1) {
-  background-image: url('/images/Oracle1.png'), 
-                    linear-gradient(135deg, rgba(0, 91, 249, 0.3) 0%, rgba(0, 91, 249, 0.2) 100%),
-                    linear-gradient(135deg, rgba(255, 255, 255, 0.15) 0%, rgba(255, 255, 255, 0.05) 100%);
-  background-size: cover, cover, cover;
+  background-image: url('/images/oraclcard.png'), 
+                    linear-gradient(135deg, rgba(255, 255, 255, 0.2) 0%, rgba(255, 255, 255, 0.05) 50%, transparent 100%),
+                    linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 50%, #0a0a0a 100%);
+  background-size: 70%, 100%, 100%;
   background-position: center, center, center;
   background-repeat: no-repeat, no-repeat, no-repeat;
-  background-blend-mode: overlay, normal, normal;
+  background-blend-mode: normal, overlay, normal;
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.6), 
+              inset 0 1px 0 rgba(255, 255, 255, 0.4),
+              inset 0 -1px 0 rgba(0, 0, 0, 0.3);
 }
 
 /* Zonar card background */
 .systemCard:nth-child(2) {
-  background-image: url('/images/Zonar1.png'), 
-                    linear-gradient(135deg, rgba(0, 91, 249, 0.3) 0%, rgba(0, 91, 249, 0.2) 100%),
-                    linear-gradient(135deg, rgba(255, 255, 255, 0.15) 0%, rgba(255, 255, 255, 0.05) 100%);
-  background-size: cover, cover, cover;
+  background-image: url('/images/Zonarcard.png'), 
+                    linear-gradient(135deg, rgba(255, 255, 255, 0.2) 0%, rgba(255, 255, 255, 0.05) 50%, transparent 100%),
+                    linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 50%, #0a0a0a 100%);
+  background-size: 70%, 100%, 100%;
   background-position: center, center, center;
   background-repeat: no-repeat, no-repeat, no-repeat;
-  background-blend-mode: overlay, normal, normal;
+  background-blend-mode: normal, overlay, normal;
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.6), 
+              inset 0 1px 0 rgba(255, 255, 255, 0.4),
+              inset 0 -1px 0 rgba(0, 0, 0, 0.3);
+}
+
+/* SyphonAI card background */
+.systemCard:nth-child(3) {
+  background-image: url('/images/syphonai1.png'), 
+                    linear-gradient(135deg, rgba(255, 255, 255, 0.2) 0%, rgba(255, 255, 255, 0.05) 50%, transparent 100%),
+                    linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 50%, #0a0a0a 100%);
+  background-size: 70%, 100%, 100%;
+  background-position: center, center, center;
+  background-repeat: no-repeat, no-repeat, no-repeat;
+  background-blend-mode: normal, overlay, normal;
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.6), 
+              inset 0 1px 0 rgba(255, 255, 255, 0.4),
+              inset 0 -1px 0 rgba(0, 0, 0, 0.3);
 }
 
 .systemCard:hover {
@@ -226,12 +245,12 @@
 }
 
 .systemName {
-  font-family: 'Gonero-ExtraExpanded', 'Arial Black', sans-serif;
+  font-family: 'Gonero-ExtraExpanded', 'Poppins', sans-serif;
   font-size: 1.2rem;
-  font-weight: bold;
+  font-weight: normal;
   color: #ffffff;
   text-transform: uppercase;
-  letter-spacing: 0.02em;
+  letter-spacing: 0.05em;
   margin: 0;
   text-align: center;
   transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
@@ -254,8 +273,8 @@
 /* Left card (Oracle) - reveals from left */
 .systemCard:nth-child(1) .revealedContent {
   animation: revealFromLeft 1.2s cubic-bezier(0.25, 0.1, 0.25, 1) forwards;
-  background-image: url('/images/Oracle.png');
-  background-size: cover;
+  background-image: url('/images/oraclcard.png');
+  background-size: 60%;
   background-position: center;
   background-repeat: no-repeat;
 }
@@ -276,8 +295,8 @@
 /* Middle card (Zonar) - reveals from center */
 .systemCard:nth-child(2) .revealedContent {
   animation: revealFromCenter 1.2s cubic-bezier(0.25, 0.1, 0.25, 1) forwards;
-  background-image: url('/images/Zonar.png');
-  background-size: cover;
+  background-image: url('/images/Zonarcard.png');
+  background-size: 60%;
   background-position: center;
   background-repeat: no-repeat;
 }
@@ -298,6 +317,23 @@
 /* Right card (SyphonAI) - reveals from right */
 .systemCard:nth-child(3) .revealedContent {
   animation: revealFromRight 1.2s cubic-bezier(0.25, 0.1, 0.25, 1) forwards;
+  background-image: url('/images/syphonai1.png');
+  background-size: 60%;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+.systemCard:nth-child(3) .revealedContent::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(135deg, #8B5CF6 0%, #6D28D9 50%, #4C1D95 100%);
+  opacity: 0.85;
+  z-index: -2;
+  border-radius: inherit;
 }
 
 @keyframes revealFromLeft {
@@ -362,8 +398,9 @@
 }
 
 .systemsLabel {
-  font-family: 'Gonero-ExtraExpanded', 'Arial Black', sans-serif;
+  font-family: 'Poppins', sans-serif;
   font-size: 1rem;
+  font-weight: 600;
   color: rgba(255, 255, 255, 0.7);
   text-transform: uppercase;
   letter-spacing: 0.1em;
@@ -397,9 +434,9 @@
 }
 
 .revealedTitle {
-  font-family: 'Gonero-ExtraExpanded', 'Arial Black', sans-serif;
+  font-family: 'Poppins', sans-serif;
   font-size: 2rem;
-  font-weight: bold;
+  font-weight: 700;
   color: #ffffff;
   text-transform: uppercase;
   letter-spacing: 0.05em;
@@ -424,9 +461,9 @@
 }
 
 .systemNameLarge {
-  font-family: 'Gonero-ExtraExpanded', 'Arial Black', sans-serif;
+  font-family: 'Poppins', sans-serif;
   font-size: 1.8rem;
-  font-weight: bold;
+  font-weight: 700;
   color: #ffffff;
   text-transform: uppercase;
   letter-spacing: 0.03em;
@@ -454,15 +491,17 @@
 }
 
 .feature {
-  font-family: 'Gonero-thin', Arial, sans-serif;
+  font-family: 'Poppins', sans-serif;
   font-size: 1rem;
+  font-weight: 400;
   color: #ffffff;
   line-height: 1.4;
 }
 
 .description {
-  font-family: 'Gonero-light';
+  font-family: 'Poppins', sans-serif;
   font-size: 0.9rem;
+  font-weight: 300;
   line-height: 1.6;
   color: rgba(255, 255, 255, 0.9);
   margin: 0;

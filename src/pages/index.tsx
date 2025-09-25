@@ -326,6 +326,83 @@ const Navigation = () => {
 
 // Main Home Component
 export default function Home() {
+  const [isScrolling, setIsScrolling] = useState(false);
+
+  useEffect(() => {
+    // Font loading detection
+    const loadFonts = async () => {
+      try {
+        // Check if FontFace API is supported
+        if ('fonts' in document) {
+          // Load the font
+          const font = new FontFace('Gonero-ExtraExpanded', 'url(/fonts/Gonero-ExtraExpanded.woff2)');
+          await font.load();
+          document.fonts.add(font);
+          
+          // Add class to indicate fonts are loaded
+          document.documentElement.classList.add('fonts-loaded');
+        } else {
+          // Fallback for older browsers - wait a bit then show
+          setTimeout(() => {
+            document.documentElement.classList.add('fonts-loaded');
+          }, 100);
+        }
+      } catch (error) {
+        console.warn('Font loading failed:', error);
+        // Still show the text even if font fails to load
+        document.documentElement.classList.add('fonts-loaded');
+      }
+    };
+
+    // Intersection Observer for smooth section transitions
+    const observerOptions = {
+      threshold: 0.1,
+      rootMargin: '-10% 0px -10% 0px'
+    };
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('section-visible', 'quick-fade-in');
+        }
+      });
+    }, observerOptions);
+
+    // Scroll handler for hero section
+    const handleScroll = () => {
+      const scrollY = window.scrollY;
+      const contentOverlay = document.querySelector('.content-overlay');
+      
+      if (scrollY > 100) {
+        setIsScrolling(true);
+        if (contentOverlay) {
+          contentOverlay.classList.add('scrolling-away');
+        }
+      } else {
+        setIsScrolling(false);
+        if (contentOverlay) {
+          contentOverlay.classList.remove('scrolling-away');
+        }
+      }
+    };
+
+    // Initialize
+    loadFonts();
+    
+    // Set up observers after a short delay to ensure DOM is ready
+    setTimeout(() => {
+      const sections = document.querySelectorAll('section');
+      sections.forEach((section) => observer.observe(section));
+      
+      window.addEventListener('scroll', handleScroll, { passive: true });
+    }, 100);
+
+    return () => {
+      observer.disconnect();
+      window.removeEventListener('scroll', handleScroll);
+    };
+  }, []);
+
   const handleWaitlistClick = () => {
     // Open Formly waitlist form
     window.open('https://getformly.app/vJXW3N', '_blank');
@@ -365,12 +442,12 @@ export default function Home() {
       <Navigation />
 
       {/* Card Collage Section */}
-      <section style={{ minHeight: '100vh', padding: '4rem 0', background: 'rgba(0, 0, 0, 0.8)' }}>
+      <section className="cardcollage-section" style={{ minHeight: '100vh', padding: '4rem 0' }}>
         <CardCollage />
       </section>
 
       {/* Systems Showcase Section */}
-      <section style={{ minHeight: '100vh' }}>
+      <section>
         <SystemsShowcase />
       </section>
 
