@@ -1,10 +1,11 @@
 import { useEffect, useRef, useState } from 'react';
 import Head from 'next/head';
-import { CardCollage } from '../components';
-import SystemsShowcase from '../components/SystemsShowcase';
-import Roadmap from '../components/Roadmap';
-import FAQ from '../components/FAQ';
-import Footer from '../components/Footer';
+import { CardCollage, Navigation, TheTruth, MeetMentors, AnimatedTimeline, AceternityTimeline, JourneyTimeline, GlowHero} from '../components';
+import SystemsShowcase from '../components/SystemsShowcase/SystemsShowcase';
+import Testimonials from '../components/Testimonials/Testimonials';
+import Roadmap from '../components/Roadmap/Roadmap';
+import FAQ from '../components/FAQ/FAQ';
+import Footer from '../components/Footer/Footer';
 
 // Particle System Component
 const ParticleSystem = () => {
@@ -281,49 +282,6 @@ const RippleButton = ({ children, className, onClick }: { children: React.ReactN
   );
 };
 
-// Navigation Component
-const Navigation = () => {
-  useEffect(() => {
-    const handleScroll = () => {
-      const navbar = document.querySelector('.navbar') as HTMLElement;
-      if (navbar) {
-        if (window.scrollY > 50) {
-          navbar.style.background = 'rgba(0, 0, 0, 0.9)';
-        } else {
-          navbar.style.background = 'rgba(0, 0, 0, 0.1)';
-        }
-      }
-    };
-
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
-
-  const handleSmoothScroll = (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
-    e.preventDefault();
-    const target = document.querySelector(href);
-    if (target) {
-      target.scrollIntoView({
-        behavior: 'smooth'
-      });
-    }
-  };
-
-  return (
-    <nav className="navbar">
-      <div className="nav-brand">
-        <h2>Brand</h2>
-      </div>
-      <ul className="nav-links">
-        <li><a href="#home" onClick={(e) => handleSmoothScroll(e, '#home')}>Home</a></li>
-        <li><a href="#about" onClick={(e) => handleSmoothScroll(e, '#about')}>About</a></li>
-        <li><a href="#services" onClick={(e) => handleSmoothScroll(e, '#services')}>Services</a></li>
-        <li><a href="#contact" onClick={(e) => handleSmoothScroll(e, '#contact')}>Contact</a></li>
-      </ul>
-    </nav>
-  );
-};
-
 // Main Home Component
 export default function Home() {
   const [isScrolling, setIsScrolling] = useState(false);
@@ -419,45 +377,87 @@ export default function Home() {
         <link rel="mask-icon" href="/favicon.svg" color="#015BF9" />
       </Head>
 
-      {/* Background Video */}
-      <BackgroundVideo />
-
-      {/* Particles only in non-video areas */}
-      <ParticleSystem />
-
-      {/* Content Overlay */}
-      <div className="content-overlay">
-        <div className="hero-content">
-          <h1 className="hero-title">PRIME VERSE</h1>
-          <p className="hero-subtitle">MORE THAN TRADING</p>
-          <div className="hero-buttons">
-            <RippleButton className="btn btn-primary" onClick={handleWaitlistClick}>
-              JOIN THE WAITLIST
-            </RippleButton>
-          </div>
-        </div>
-      </div>
-
       {/* Navigation */}
       <Navigation />
 
+      {/* Hero Section with Background Video */}
+      <section id="home" className="hero-section" style={{ position: 'relative', minHeight: '100vh', overflow: 'hidden', scrollMarginTop: '80px' }}>
+        {/* Background Video */}
+        <BackgroundVideo />
+
+        {/* Particles only in non-video areas */}
+        <ParticleSystem />
+
+        {/* Content Overlay */}
+        <div className="content-overlay">
+          <div className="hero-content">
+            <h1 className="hero-title">PRIME VERSE</h1>
+            <p className="hero-subtitle">MORE THAN TRADING</p>
+            <div className="hero-buttons">
+              <RippleButton className="btn btn-primary" onClick={handleWaitlistClick}>
+                JOIN THE WAITLIST
+              </RippleButton>
+            </div>
+          </div>
+        </div>
+      </section>
+
+
+        {/* Glow Hero Section */}
+        <section id="glow-hero" style={{ scrollMarginTop: '80px' }}>
+        <GlowHero 
+          title="CONGRATULATIONS YOU ARE OFFICIALLY ENTERING YOUR PRIME"
+          highlightText="WELCOME TO PRIME VERSE"
+        />
+      </section>
+    
+
+      {/* The Truth Section */}
+      <section>
+        <TheTruth />
+      </section>
+
       {/* Card Collage Section */}
-      <section className="cardcollage-section" style={{ minHeight: '100vh', padding: '4rem 0' }}>
+      <section id="products" className="cardcollage-section" style={{ minHeight: '100vh', padding: '4rem 0', scrollMarginTop: '80px' }}>
         <CardCollage />
       </section>
 
+      {/* Animated Timeline Section
+      <section id="journey" style={{ scrollMarginTop: '80px' }}>
+        <AnimatedTimeline />
+      </section> */}
+
+     
+
+    
+      {/* Testimonials Section */}
+      <section id="testimonials" style={{ scrollMarginTop: '80px' }}>
+        <Testimonials />
+      </section>
+
+      {/* Roadmap Section
+      <section>
+        <Roadmap />
+      </section>
+
+     */}
+      {/* Journey Timeline Section */}
+      <section id="journey-timeline" style={{ scrollMarginTop: '80px' }}>
+        <JourneyTimeline />
+      </section>
       {/* Systems Showcase Section */}
       <section>
         <SystemsShowcase />
       </section>
 
-      {/* Roadmap Section */}
-      <section style={{ minHeight: '100vh', background: 'rgba(0, 0, 0, 0.9)' }}>
-        <Roadmap />
-      </section>
+      {/* Meet Your Mentors Section */}
+      {/* <section>
+        <MeetMentors />
+      </section>  */}
+
 
       {/* FAQ Section */}
-      <section style={{ minHeight: '100vh' }}>
+      <section id="faq" style={{ minHeight: '100vh', scrollMarginTop: '80px' }}>
         <FAQ />
       </section>
 
