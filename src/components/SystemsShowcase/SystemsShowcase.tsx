@@ -37,28 +37,34 @@ const SystemsShowcase = () => {
   const [selectedSystem, setSelectedSystem] = useState<number | null>(null);
   const [isVisible, setIsVisible] = useState(false);
   const [imagesLoaded, setImagesLoaded] = useState(false);
+  const [isClosing, setIsClosing] = useState(false);
   const containerRef = useRef<HTMLDivElement>(null);
   const cardsRef = useRef<(HTMLDivElement | null)[]>([]);
 
   useEffect(() => {
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            setIsVisible(true);
-            // Preload images when component becomes visible
-            preloadImages();
-          }
-        });
-      },
-      { threshold: 0.2 }
-    );
+    // Disable individual component animation - now handled by unified flow
+    // const observer = new IntersectionObserver(
+    //   (entries) => {
+    //     entries.forEach((entry) => {
+    //       if (entry.isIntersecting) {
+    //         setIsVisible(true);
+    //         // Preload images when component becomes visible
+    //         preloadImages();
+    //       }
+    //     });
+    //   },
+    //   { threshold: 0.2 }
+    // );
 
-    if (containerRef.current) {
-      observer.observe(containerRef.current);
-    }
+    // if (containerRef.current) {
+    //   observer.observe(containerRef.current);
+    // }
 
-    return () => observer.disconnect();
+    // return () => observer.disconnect();
+    
+    // Always visible and preload images immediately
+    setIsVisible(true);
+    preloadImages();
   }, []);
 
   const preloadImages = () => {
@@ -135,11 +141,23 @@ const SystemsShowcase = () => {
   }, [selectedSystem]);
 
   const handleCardClick = (systemId: number) => {
-    setSelectedSystem(selectedSystem === systemId ? null : systemId);
+    if (selectedSystem === systemId) {
+      // Close the currently selected card
+      handleCloseClick();
+    } else {
+      // Open a new card
+      setIsClosing(false);
+      setSelectedSystem(systemId);
+    }
   };
 
   const handleCloseClick = () => {
-    setSelectedSystem(null);
+    setIsClosing(true);
+    // Wait for close animation to complete before removing the selected system
+    setTimeout(() => {
+      setSelectedSystem(null);
+      setIsClosing(false);
+    }, 400); // Match the CSS animation duration
   };
 
   return (
@@ -155,7 +173,9 @@ const SystemsShowcase = () => {
             ref={(el) => { cardsRef.current[index] = el; }}
             className={`${styles.systemCard} ${
               selectedSystem === system.id ? styles.active : ''
-            } ${selectedSystem && selectedSystem !== system.id ? styles.inactive : ''}`}
+            } ${selectedSystem && selectedSystem !== system.id ? styles.inactive : ''} ${
+              isClosing && selectedSystem === system.id ? styles.closing : ''
+            }`}
             style={{ animationDelay: `${index * 0.2}s` }}
             onClick={() => handleCardClick(system.id)}
           >

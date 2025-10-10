@@ -312,16 +312,24 @@ export default function Home() {
       }
     };
 
-    // Intersection Observer for smooth section transitions
+    // Unified Animation System - All sections appear as one cohesive flow
     const observerOptions = {
-      threshold: 0.1,
-      rootMargin: '-10% 0px -10% 0px'
+      threshold: 0.05,
+      rootMargin: '0px 0px 0px 0px'
     };
 
+    let hasAnimated = false;
     const observer = new IntersectionObserver((entries) => {
       entries.forEach((entry) => {
-        if (entry.isIntersecting) {
-          entry.target.classList.add('section-visible', 'quick-fade-in');
+        if (entry.isIntersecting && !hasAnimated) {
+          hasAnimated = true;
+          // Animate all sections at once as a unified flow
+          const allSections = document.querySelectorAll('section');
+          allSections.forEach((section, index) => {
+            setTimeout(() => {
+              section.classList.add('unified-flow-visible');
+            }, index * 100); // Small stagger for visual flow
+          });
         }
       });
     }, observerOptions);
@@ -349,8 +357,11 @@ export default function Home() {
     
     // Set up observers after a short delay to ensure DOM is ready
     setTimeout(() => {
-      const sections = document.querySelectorAll('section');
-      sections.forEach((section) => observer.observe(section));
+      // Only observe the hero section to trigger unified animation
+      const heroSection = document.querySelector('#home');
+      if (heroSection) {
+        observer.observe(heroSection);
+      }
       
       window.addEventListener('scroll', handleScroll, { passive: true });
     }, 100);

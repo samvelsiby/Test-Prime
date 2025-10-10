@@ -5,22 +5,28 @@ const TheTruth = () => {
   const sectionRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            entry.target.classList.add(styles.visible);
-          }
-        });
-      },
-      { threshold: 0.1 }
-    );
+    // Disable individual component animation - now handled by unified flow
+    // const observer = new IntersectionObserver(
+    //   (entries) => {
+    //     entries.forEach((entry) => {
+    //       if (entry.isIntersecting) {
+    //         entry.target.classList.add(styles.visible);
+    //       }
+    //     });
+    //   },
+    //   { threshold: 0.1 }
+    // );
 
+    // if (sectionRef.current) {
+    //   observer.observe(sectionRef.current);
+    // }
+
+    // return () => observer.disconnect();
+    
+    // Always visible - animation handled by unified flow
     if (sectionRef.current) {
-      observer.observe(sectionRef.current);
+      sectionRef.current.classList.add(styles.visible);
     }
-
-    return () => observer.disconnect();
   }, []);
 
   const problems = [

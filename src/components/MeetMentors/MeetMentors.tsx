@@ -21,23 +21,27 @@ const MeetMentors = () => {
   const [pause, setPause] = useState(false);
 
   useEffect(() => {
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting) {
-          setIsVisible(true);
-        }
-      },
-      {
-        threshold: 0.1,
-        rootMargin: '-50px 0px'
-      }
-    );
+    // Disable individual component animation - now handled by unified flow
+    // const observer = new IntersectionObserver(
+    //   ([entry]) => {
+    //     if (entry.isIntersecting) {
+    //       setIsVisible(true);
+    //     }
+    //   },
+    //   {
+    //     threshold: 0.1,
+    //     rootMargin: '-50px 0px'
+    //   }
+    // );
 
-    if (containerRef.current) {
-      observer.observe(containerRef.current);
-    }
+    // if (containerRef.current) {
+    //   observer.observe(containerRef.current);
+    // }
 
-    return () => observer.disconnect();
+    // return () => observer.disconnect();
+    
+    // Always visible - animation handled by unified flow
+    setIsVisible(true);
   }, []);
 
   // Scrolling animation for mentors (right to left)

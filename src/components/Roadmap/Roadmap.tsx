@@ -105,31 +105,37 @@ const Roadmap: React.FC = () => {
   const lineHeight = useTransform(lineProgressSpring, (v) => `${v}%`);
 
   useEffect(() => {
-    observerRef.current = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          const stepId = parseInt(entry.target.getAttribute('data-step-id') || '0');
-          if (entry.isIntersecting) {
-            setVisibleItems(prev => {
-              const newSet = new Set(prev);
-              newSet.add(stepId);
-              return newSet;
-            });
-          }
-        });
-      },
-      {
-        threshold: 0.3,
-        rootMargin: '0px 0px -100px 0px'
-      }
-    );
+    // Disable individual component animation - now handled by unified flow
+    // observerRef.current = new IntersectionObserver(
+    //   (entries) => {
+    //     entries.forEach((entry) => {
+    //       const stepId = parseInt(entry.target.getAttribute('data-step-id') || '0');
+    //       if (entry.isIntersecting) {
+    //         setVisibleItems(prev => {
+    //           const newSet = new Set(prev);
+    //           newSet.add(stepId);
+    //           return newSet;
+    //         });
+    //       }
+    //     });
+    //   },
+    //   {
+    //     threshold: 0.3,
+    //     rootMargin: '0px 0px -100px 0px'
+    //   }
+    // );
 
+    // const stepElements = document.querySelectorAll('[data-step-id]');
+    // stepElements.forEach(el => observerRef.current?.observe(el));
+
+    // return () => {
+    //   observerRef.current?.disconnect();
+    // };
+    
+    // Always show all items - animation handled by unified flow
     const stepElements = document.querySelectorAll('[data-step-id]');
-    stepElements.forEach(el => observerRef.current?.observe(el));
-
-    return () => {
-      observerRef.current?.disconnect();
-    };
+    const allStepIds = Array.from(stepElements).map(el => parseInt(el.getAttribute('data-step-id') || '0'));
+    setVisibleItems(new Set(allStepIds));
   }, []);
 
   useEffect(() => {

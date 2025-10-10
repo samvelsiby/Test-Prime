@@ -882,13 +882,20 @@ body {
     }
 }
 
-/* Section Transition Animations */
+/* Unified Flow Animation System */
 section {
     opacity: 0;
-    transform: translateY(50px);
-    transition: all 0.8s cubic-bezier(0.25, 0.1, 0.25, 1);
+    transform: translateY(30px);
+    transition: all 0.6s cubic-bezier(0.25, 0.1, 0.25, 1);
 }
 
+/* Unified flow animation - all sections appear as one cohesive flow */
+section.unified-flow-visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* Legacy individual section animations - disabled */
 section.section-visible {
     opacity: 1;
     transform: translateY(0);
