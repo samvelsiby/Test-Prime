@@ -41,16 +41,16 @@ const DotGrid: React.FC = () => {
         );
         
         // Maximum distance for effect (in pixels)
-        const maxDistance = 150;
+        const maxDistance = 500;
         
         if (distance < maxDistance) {
           // Calculate brightness based on distance (closer = brighter)
           const brightness = 1 - (distance / maxDistance);
-          const opacity = 0.5 + (brightness * 0.5); // Range from 0.5 to 1
+          const opacity = brightness; // Range from 0 to 1
           
           dot.style.opacity = opacity.toString();
         } else {
-          dot.style.opacity = '0.5';
+          dot.style.opacity = '0';
         }
       });
     };
