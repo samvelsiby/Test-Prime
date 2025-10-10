@@ -66,7 +66,7 @@ const SystemsShowcase = () => {
     
     const imageUrls = [
       'https://imagedelivery.net/-TAsjfo4iCAfiV6-gO1zSg/e53bb48e-c3ff-49e3-6757-a16b6fe2a300/public',
-      'https://imagedelivery.net/-TAsjfo4iCAfiV6-gO1zSg/e53bb48e-c3ff-49e3-6757-a16b6fe2a300/public',
+      'https://imagedelivery.net/-TAsjfo4iCAfiV6-gO1zSg/02ef02aa-52d3-4af8-94db-56af4c257800/public',
       'https://imagedelivery.net/-TAsjfo4iCAfiV6-gO1zSg/e518fbc6-8e0f-4493-de90-6d76e1fc9600/public'
     ];
 
