@@ -414,20 +414,25 @@ export default function Home() {
         </div>
       </section>
 
-      {/* DotGrid Section */}
-      <section>
-        <DotGrid />
-      </section>
 
       {/* The Truth Section */}
       <section>
         <TheTruth />
       </section>
 
+
+           {/* DotGrid Section */}
+           <section>
+        <DotGrid />
+      </section>
+
+
       {/* Card Collage Section */}
       <section id="products" className="cardcollage-section" style={{ minHeight: '100vh', padding: '4rem 0', scrollMarginTop: '80px' }}>
         <CardCollage />
       </section>
+
+  
 
       {/* Animated Timeline Section
       <section id="journey" style={{ scrollMarginTop: '80px' }}>

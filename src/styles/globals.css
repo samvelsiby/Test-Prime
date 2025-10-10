@@ -10,6 +10,24 @@
   font-display: swap;
 }
 
+/* Font face for Gonero-Light */
+@font-face {
+  font-family: 'Gonero-Light';
+  src: url('/fonts/Gonero-Light.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* Font face for Gonero-SemiExpanded */
+@font-face {
+  font-family: 'Gonero-SemiExpanded';
+  src: url('/fonts/Gonero-SemiExpanded.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
 /* Reset and base styles */
 * {
     margin: 0;

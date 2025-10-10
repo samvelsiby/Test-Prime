@@ -2,7 +2,7 @@
   width: 100%;
   max-width: 1200px;
   margin: 0 auto;
-  padding: 1rem 2rem 0 2rem; /* Reduced top padding, removed bottom padding */
+  padding: 0.5rem 2rem 0 2rem; /* Further reduced top padding, removed bottom padding */
   background: transparent;
 }
 
@@ -12,14 +12,14 @@
   grid-template-rows: repeat(3, 200px);
   gap: 1rem;
   width: 100%;
-  aspect-ratio: 5 / 3; /* Maintain 5:3 aspect ratio for the grid */
+  /* Removed aspect-ratio to let content determine size */
 }
 
 /* Large screen scaling - proportional scaling */
 @media (min-width: 1920px) {
   .collageContainer {
     max-width: 1800px; /* 1200px * 1.5 */
-    padding: 1.5rem 3rem 0 3rem; /* Reduced top padding, removed bottom padding */
+    padding: 0.75rem 3rem 0 3rem; /* Further reduced top padding, removed bottom padding */
   }
   
   .cardGrid {
@@ -59,7 +59,7 @@
 @media (min-width: 2560px) {
   .collageContainer {
     max-width: 2400px; /* 1200px * 2 */
-    padding: 2rem 4rem 0 4rem; /* Reduced top padding, removed bottom padding */
+    padding: 1rem 4rem 0 4rem; /* Further reduced top padding, removed bottom padding */
   }
   
   .cardGrid {
@@ -99,7 +99,7 @@
 @media (min-width: 3840px) {
   .collageContainer {
     max-width: 3600px; /* 1200px * 3 */
-    padding: 3rem 6rem 0 6rem; /* Reduced top padding, removed bottom padding */
+    padding: 1.5rem 6rem 0 6rem; /* Further reduced top padding, removed bottom padding */
   }
   
   .cardGrid {
@@ -477,7 +477,7 @@
 @media (max-width: 1200px) {
   .collageContainer {
     max-width: 1000px; /* 1200px * 0.833 */
-    padding: 0.83rem 1.67rem 0 1.67rem; /* Reduced top padding, removed bottom padding */
+    padding: 0.42rem 1.67rem 0 1.67rem; /* Further reduced top padding, removed bottom padding */
   }
   
   .cardGrid {
@@ -517,7 +517,7 @@
 @media (max-width: 1024px) {
   .collageContainer {
     max-width: 800px; /* 1200px * 0.667 */
-    padding: 0.67rem 1.33rem 0 1.33rem; /* Reduced top padding, removed bottom padding */
+    padding: 0.33rem 1.33rem 0 1.33rem; /* Further reduced top padding, removed bottom padding */
   }
   
   .cardGrid {
@@ -608,7 +608,7 @@
 @media (max-width: 768px) {
   .collageContainer {
     max-width: 100%;
-    padding: 0.5rem 1rem 0 1rem; /* Reduced top padding, removed bottom padding */
+    padding: 0.25rem 1rem 0 1rem; /* Further reduced top padding, removed bottom padding */
   }
   
   .cardGrid {
