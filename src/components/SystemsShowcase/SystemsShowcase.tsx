@@ -65,9 +65,9 @@ const SystemsShowcase = () => {
     if (imagesLoaded) return;
     
     const imageUrls = [
-      '/images/oracle-bg-gradeint.png',
-      '/images/zonargrdeint-bg.png',
-      '/images/syphon-bg-gradient.png'
+      'https://imagedelivery.net/-TAsjfo4iCAfiV6-gO1zSg/dc33a64b-9cf3-48b0-e3df-965b24c3ab00/public',
+      'https://imagedelivery.net/-TAsjfo4iCAfiV6-gO1zSg/137189f8-0a12-437f-9d50-17ccdea3d600/public',
+      'https://imagedelivery.net/-TAsjfo4iCAfiV6-gO1zSg/e518fbc6-8e0f-4493-de90-6d76e1fc9600/public'
     ];
 
     let loadedCount = 0;

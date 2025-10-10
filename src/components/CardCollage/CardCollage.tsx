@@ -17,7 +17,7 @@ const cardData: Card[] = [
     description: "Discover exclusive benefits and premium features that set Prime Verse apart from traditional trading platforms.",
     backgroundColor: "linear-gradient(135deg, #20C8EF 0%, #138FA3 100%)",
     textColor: "#ffffff",
-    backgroundImage: "/cardimages/card1.png"
+    backgroundImage: "https://imagedelivery.net/-TAsjfo4iCAfiV6-gO1zSg/ea485e96-5f9c-4378-c643-3d6f4296b700/public"
   },
   {
     id: 2,
@@ -25,7 +25,7 @@ const cardData: Card[] = [
     description: "Comprehensive educational resources and tutorials designed for traders of all skill levels.",
     backgroundColor: "linear-gradient(135deg, #2196ED 0%, #186B9E 100%)",
     textColor: "#000000",
-    backgroundImage: "/cardimages/card2.png"
+    backgroundImage: "https://imagedelivery.net/-TAsjfo4iCAfiV6-gO1zSg/3532604e-65db-41b3-3568-2c9505424400/public"
   },
   {
     id: 3,
@@ -33,7 +33,7 @@ const cardData: Card[] = [
     description: "Advanced AI-powered trading insights and market analysis to enhance your trading decisions.",
     backgroundColor: "linear-gradient(135deg, #136AEA 0%, #0F4687 100%)",
     textColor: "#ffffff",
-    backgroundImage: "/cardimages/card3.png"
+    backgroundImage: "https://imagedelivery.net/-TAsjfo4iCAfiV6-gO1zSg/551a8832-ead7-454a-43f9-b22f5c86cb00/public"
   },
   {
     id: 4,
@@ -41,7 +41,7 @@ const cardData: Card[] = [
     description: "Real-time trade tracking and portfolio management with advanced analytics and reporting.",
     backgroundColor: "linear-gradient(135deg, #1551E8 0%, #103889 100%)",
     textColor: "#ffffff",
-    backgroundImage: "/cardimages/card4.png"
+    backgroundImage: "https://imagedelivery.net/-TAsjfo4iCAfiV6-gO1zSg/bfd22540-f83c-43ff-858c-8f1f157c5300/public"
   },
   {
     id: 5,
@@ -49,7 +49,7 @@ const cardData: Card[] = [
     description: "Instant notifications for market opportunities and important trading signals.",
     backgroundColor: "linear-gradient(135deg, #1E1EF4 0%, #101089 100%)",
     textColor: "#ffffff",
-    backgroundImage: "/cardimages/card5.png"
+    backgroundImage: "https://imagedelivery.net/-TAsjfo4iCAfiV6-gO1zSg/1c36fffd-2fa3-4413-7ef2-302d75f0a500/public"
   },
   {
     id: 6,
@@ -57,7 +57,7 @@ const cardData: Card[] = [
     description: "Direct access to experienced traders through live sessions and personalized guidance.",
     backgroundColor: "linear-gradient(135deg, #501CF2 0%, #2B1391 100%)",
     textColor: "#000000",
-    backgroundImage: "/cardimages/card6.png"
+    backgroundImage: "https://imagedelivery.net/-TAsjfo4iCAfiV6-gO1zSg/726f24f3-bbfa-44f4-fc40-5af3bd97cb00/public"
   },
   {
     id: 7,
@@ -65,7 +65,7 @@ const cardData: Card[] = [
     description: "Powerful market scanning tools to identify profitable trading opportunities in real-time.",
     backgroundColor: "linear-gradient(135deg, #6E1DED 0%, #3B118C 100%)",
     textColor: "#ffffff",
-    backgroundImage: "/cardimages/card7.png"
+    backgroundImage: "https://imagedelivery.net/-TAsjfo4iCAfiV6-gO1zSg/5422f012-2a9b-4525-ad53-a04cb74a2500/public"
   },
   {
     id: 8,
@@ -73,7 +73,7 @@ const cardData: Card[] = [
     description: "Premium travel perks and exclusive experiences for Prime Verse community members.",
     backgroundColor: "linear-gradient(135deg, #8B1BED 0%, #3E0D72 100%)",
     textColor: "#000000",
-    backgroundImage: "/cardimages/card8.png"
+    backgroundImage: "https://imagedelivery.net/-TAsjfo4iCAfiV6-gO1zSg/47313107-142e-40f8-14c9-f48894ce6800/public"
   },
   {
     id: 9,
@@ -81,7 +81,7 @@ const cardData: Card[] = [
     description: "Comprehensive courses on building long-term wealth through smart trading and investment strategies.",
     backgroundColor: "linear-gradient(135deg, #A61BEF 0%, #560F84 100%)",
     textColor: "#000000",
-    backgroundImage: "/cardimages/card9.png"
+    backgroundImage: "https://imagedelivery.net/-TAsjfo4iCAfiV6-gO1zSg/0d4b3014-81b3-4e36-d1cf-832101968600/public"
   },
   {
     id: 10,
@@ -89,7 +89,7 @@ const cardData: Card[] = [
     description: "Learn how to build a successful affiliate business and generate passive income streams.",
     backgroundColor: "linear-gradient(135deg, #B018E8 0%, #650E89 100%)",
     textColor: "#ffffff",
-    backgroundImage: "/cardimages/card10.png"
+    backgroundImage: "https://imagedelivery.net/-TAsjfo4iCAfiV6-gO1zSg/52e0bc40-5d91-4af9-5814-44e32e438300/public"
   }
 ];
 
