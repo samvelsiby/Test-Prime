@@ -1,11 +1,12 @@
 import { useEffect, useRef, useState } from 'react';
 import Head from 'next/head';
-import { CardCollage, Navigation, TheTruth, MeetMentors, AnimatedTimeline, AceternityTimeline, JourneyTimeline, GlowHero} from '../components';
+import { CardCollage, Navigation, TheTruth,  JourneyTimeline,} from '../components';
 import SystemsShowcase from '../components/SystemsShowcase/SystemsShowcase';
 import Testimonials from '../components/Testimonials/Testimonials';
 import Roadmap from '../components/Roadmap/Roadmap';
 import FAQ from '../components/FAQ/FAQ';
 import Footer from '../components/Footer/Footer';
+import DotGrid from '../components/DotGrid/DotGrid';
 
 // Particle System Component
 const ParticleSystem = () => {
@@ -413,15 +414,10 @@ export default function Home() {
         </div>
       </section>
 
-
-        {/* Glow Hero Section */}
-        <section id="glow-hero" style={{ scrollMarginTop: '80px' }}>
-        <GlowHero 
-          title="CONGRATULATIONS YOU ARE OFFICIALLY ENTERING YOUR PRIME"
-          highlightText="WELCOME TO PRIME VERSE"
-        />
+      {/* DotGrid Section */}
+      <section>
+        <DotGrid />
       </section>
-    
 
       {/* The Truth Section */}
       <section>
