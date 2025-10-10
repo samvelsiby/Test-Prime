@@ -274,13 +274,12 @@ const Testimonials = () => {
             alignItems: 'center',
             justifyContent: 'center'
           }}>
-            <Image 
+            <img 
               src="/icons/explore.svg" 
               alt="Explore" 
               width={120} 
               height={120}
               style={{ width: '100%', height: '100%' }}
-              priority={false}
             />
           </div>
         </div>

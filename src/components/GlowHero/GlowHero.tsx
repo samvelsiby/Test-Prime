@@ -3,13 +3,19 @@ import React, { useRef, useEffect } from 'react';
 import styles from './GlowHero.module.css';
 
 interface GlowHeroProps {
+  // Small lead line displayed above the main title
+  leadText?: string;
+  // Main big title text
   title?: string;
+  // Unused but kept for compatibility
   subtitle?: string;
+  // Text inside the highlighted badge with the logo
   highlightText?: string;
 }
 
 const GlowHero: React.FC<GlowHeroProps> = ({
-  title = "CONGRATULATIONS YOU ARE OFFICIALLY ENTERING YOUR PRIME",
+  leadText = "CONGRATULATIONS YOU ARE OFFICALLY",
+  title = "ENTERING YOUR PRIME",
   subtitle = "",
   highlightText = "WELCOME TO PRIME VERSE"
 }) => {
@@ -96,6 +102,18 @@ const GlowHero: React.FC<GlowHeroProps> = ({
       
       {/* Content */}
       <div className={styles.content}>
+        {/* Lead line above the main title */}
+        <p style={{
+          margin: 0,
+          marginBottom: '0.75rem',
+          fontFamily: 'Gonero-ExtraExpanded, Arial Black, sans-serif',
+          fontSize: '1.25rem',
+          letterSpacing: '0.12em',
+          textTransform: 'uppercase',
+          color: 'rgba(237, 236, 237, 0.9)'
+        }}>
+          {leadText}
+        </p>
         <h1 className={styles.title}>
           {title}
         </h1>

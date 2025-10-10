@@ -415,13 +415,13 @@ export default function Home() {
 
 
         {/* Glow Hero Section */}
-        <section id="glow-hero" style={{ scrollMarginTop: '80px' }}>
+        {/* <section id="glow-hero" style={{ scrollMarginTop: '80px' }}>
         <GlowHero 
           title="CONGRATULATIONS YOU ARE OFFICIALLY ENTERING YOUR PRIME"
           highlightText="WELCOME TO PRIME VERSE"
         />
       </section>
-    
+     */}
 
       {/* The Truth Section */}
       <section>
