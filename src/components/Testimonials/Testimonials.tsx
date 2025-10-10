@@ -275,7 +275,7 @@ const Testimonials = () => {
             justifyContent: 'center'
           }}>
             <Image 
-              src="https://imagedelivery.net/-TAsjfo4iCAfiV6-gO1zSg/4ac6569b-789a-4a51-1977-711e0d0c6800/public" 
+              src="/icons/explore.svg" 
               alt="Explore" 
               width={120} 
               height={120}

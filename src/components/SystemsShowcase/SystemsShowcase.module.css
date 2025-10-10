@@ -124,7 +124,7 @@
 /* Oracle card background - optimized with fallback */
 .systemCard:nth-child(1) {
   background: linear-gradient(135deg, #8B5CF6 0%, #6D28D9 50%, #4C1D95 100%);
-  background-image: url('https://imagedelivery.net/-TAsjfo4iCAfiV6-gO1zSg/dc33a64b-9cf3-48b0-e3df-965b24c3ab00/public');
+  background-image: url('https://imagedelivery.net/-TAsjfo4iCAfiV6-gO1zSg/e53bb48e-c3ff-49e3-6757-a16b6fe2a300/public');
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
@@ -141,7 +141,7 @@
 /* Zonar card background - optimized with fallback */
 .systemCard:nth-child(2) {
   background: linear-gradient(135deg, #059669 0%, #047857 50%, #065F46 100%);
-  background-image: url('https://imagedelivery.net/-TAsjfo4iCAfiV6-gO1zSg/137189f8-0a12-437f-9d50-17ccdea3d600/public');
+  background-image: url('https://imagedelivery.net/-TAsjfo4iCAfiV6-gO1zSg/e53bb48e-c3ff-49e3-6757-a16b6fe2a300/public');
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;

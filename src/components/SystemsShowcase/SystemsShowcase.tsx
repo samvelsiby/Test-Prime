@@ -65,8 +65,8 @@ const SystemsShowcase = () => {
     if (imagesLoaded) return;
     
     const imageUrls = [
-      'https://imagedelivery.net/-TAsjfo4iCAfiV6-gO1zSg/dc33a64b-9cf3-48b0-e3df-965b24c3ab00/public',
-      'https://imagedelivery.net/-TAsjfo4iCAfiV6-gO1zSg/137189f8-0a12-437f-9d50-17ccdea3d600/public',
+      'https://imagedelivery.net/-TAsjfo4iCAfiV6-gO1zSg/e53bb48e-c3ff-49e3-6757-a16b6fe2a300/public',
+      'https://imagedelivery.net/-TAsjfo4iCAfiV6-gO1zSg/e53bb48e-c3ff-49e3-6757-a16b6fe2a300/public',
       'https://imagedelivery.net/-TAsjfo4iCAfiV6-gO1zSg/e518fbc6-8e0f-4493-de90-6d76e1fc9600/public'
     ];
 
