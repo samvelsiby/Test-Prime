@@ -77,7 +77,7 @@
   height: 450px;
   width: 320px;
   cursor: pointer;
-  transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+  transition: all 1.2s cubic-bezier(0.25, 0.46, 0.45, 0.94);
   position: relative;
   display: flex;
   align-items: center;
@@ -303,10 +303,10 @@
   z-index: 10;
 }
 
-/* Left card (Oracle) - reveals from left */
-.systemCard:nth-child(1) .revealedContent {
-  animation: revealFromLeft 0.6s cubic-bezier(0.4, 0, 0.2, 1) forwards;
-}
+  /* Left card (Oracle) - reveals from left */
+  .systemCard:nth-child(1) .revealedContent {
+    animation: revealFromLeft 1.2s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+  }
 
 .systemCard:nth-child(1) .revealedContent::before {
   content: '';
@@ -321,10 +321,10 @@
   border-radius: inherit;
 }
 
-/* Middle card (Zonar) - reveals from center */
-.systemCard:nth-child(2) .revealedContent {
-  animation: revealFromCenter 0.6s cubic-bezier(0.4, 0, 0.2, 1) forwards;
-}
+  /* Middle card (Zonar) - reveals from center */
+  .systemCard:nth-child(2) .revealedContent {
+    animation: revealFromCenter 1.2s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+  }
 
 .systemCard:nth-child(2) .revealedContent::before {
   content: '';
@@ -339,10 +339,10 @@
   border-radius: inherit;
 }
 
-/* Right card (SyphonAI) - reveals from right */
-.systemCard:nth-child(3) .revealedContent {
-  animation: revealFromRight 0.6s cubic-bezier(0.4, 0, 0.2, 1) forwards;
-}
+  /* Right card (SyphonAI) - reveals from right */
+  .systemCard:nth-child(3) .revealedContent {
+    animation: revealFromRight 1.2s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+  }
 
 .systemCard:nth-child(3) .revealedContent::before {
   content: '';
@@ -360,33 +360,69 @@
 @keyframes revealFromLeft {
   0% {
     opacity: 0;
-    transform: scale(0.95) translateX(-50px);
+    transform: scale(0.8) translateX(-100px) rotateY(-15deg);
+    filter: blur(10px);
+  }
+  30% {
+    opacity: 0.3;
+    transform: scale(0.9) translateX(-60px) rotateY(-8deg);
+    filter: blur(5px);
+  }
+  70% {
+    opacity: 0.8;
+    transform: scale(1.05) translateX(-10px) rotateY(2deg);
+    filter: blur(2px);
   }
   100% {
     opacity: 1;
-    transform: scale(1) translateX(0);
+    transform: scale(1) translateX(0) rotateY(0deg);
+    filter: blur(0);
   }
 }
 
 @keyframes revealFromCenter {
   0% {
     opacity: 0;
-    transform: scale(0.95);
+    transform: scale(0.7) rotateX(20deg);
+    filter: blur(15px);
+  }
+  30% {
+    opacity: 0.4;
+    transform: scale(0.85) rotateX(10deg);
+    filter: blur(8px);
+  }
+  70% {
+    opacity: 0.9;
+    transform: scale(1.08) rotateX(-3deg);
+    filter: blur(3px);
   }
   100% {
     opacity: 1;
-    transform: scale(1);
+    transform: scale(1) rotateX(0deg);
+    filter: blur(0);
   }
 }
 
 @keyframes revealFromRight {
   0% {
     opacity: 0;
-    transform: scale(0.95) translateX(50px);
+    transform: scale(0.8) translateX(100px) rotateY(15deg);
+    filter: blur(10px);
+  }
+  30% {
+    opacity: 0.3;
+    transform: scale(0.9) translateX(60px) rotateY(8deg);
+    filter: blur(5px);
+  }
+  70% {
+    opacity: 0.8;
+    transform: scale(1.05) translateX(10px) rotateY(-2deg);
+    filter: blur(2px);
   }
   100% {
     opacity: 1;
-    transform: scale(1) translateX(0);
+    transform: scale(1) translateX(0) rotateY(0deg);
+    filter: blur(0);
   }
 }
 
@@ -486,51 +522,87 @@
 @keyframes closeToLeft {
   0% {
     opacity: 1;
-    transform: scale(1) translateX(0);
+    transform: scale(1) translateX(0) rotateY(0deg);
+    filter: blur(0);
+  }
+  30% {
+    opacity: 0.8;
+    transform: scale(0.98) translateX(-20px) rotateY(-5deg);
+    filter: blur(2px);
+  }
+  70% {
+    opacity: 0.4;
+    transform: scale(0.85) translateX(-60px) rotateY(-12deg);
+    filter: blur(8px);
   }
   100% {
     opacity: 0;
-    transform: scale(0.95) translateX(-50px);
+    transform: scale(0.7) translateX(-120px) rotateY(-20deg);
+    filter: blur(15px);
   }
 }
 
 @keyframes closeToCenter {
   0% {
     opacity: 1;
-    transform: scale(1);
+    transform: scale(1) rotateX(0deg);
+    filter: blur(0);
+  }
+  30% {
+    opacity: 0.8;
+    transform: scale(0.97) rotateX(5deg);
+    filter: blur(2px);
+  }
+  70% {
+    opacity: 0.4;
+    transform: scale(0.85) rotateX(15deg);
+    filter: blur(8px);
   }
   100% {
     opacity: 0;
-    transform: scale(0.95);
+    transform: scale(0.7) rotateX(25deg);
+    filter: blur(15px);
   }
 }
 
 @keyframes closeToRight {
   0% {
     opacity: 1;
-    transform: scale(1) translateX(0);
+    transform: scale(1) translateX(0) rotateY(0deg);
+    filter: blur(0);
+  }
+  30% {
+    opacity: 0.8;
+    transform: scale(0.98) translateX(20px) rotateY(5deg);
+    filter: blur(2px);
+  }
+  70% {
+    opacity: 0.4;
+    transform: scale(0.85) translateX(60px) rotateY(12deg);
+    filter: blur(8px);
   }
   100% {
     opacity: 0;
-    transform: scale(0.95) translateX(50px);
+    transform: scale(0.7) translateX(120px) rotateY(20deg);
+    filter: blur(15px);
   }
 }
 
 /* Enhanced card transitions */
 .systemCard.closing {
-  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  transition: all 1.2s cubic-bezier(0.25, 0.46, 0.45, 0.94);
 }
 
 .systemCard.closing:nth-child(1) .revealedContent {
-  animation: closeToLeft 0.4s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+  animation: closeToLeft 1.2s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
 }
 
 .systemCard.closing:nth-child(2) .revealedContent {
-  animation: closeToCenter 0.4s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+  animation: closeToCenter 1.2s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
 }
 
 .systemCard.closing:nth-child(3) .revealedContent {
-  animation: closeToRight 0.4s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+  animation: closeToRight 1.2s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
 }
 
 .features {

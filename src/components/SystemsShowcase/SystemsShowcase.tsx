@@ -157,7 +157,7 @@ const SystemsShowcase = () => {
     setTimeout(() => {
       setSelectedSystem(null);
       setIsClosing(false);
-    }, 400); // Match the CSS animation duration
+    }, 1200); // Match the CSS animation duration
   };
 
   return (

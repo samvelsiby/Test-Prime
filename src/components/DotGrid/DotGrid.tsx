@@ -184,20 +184,20 @@ const DotGrid = () => {
       <style jsx>{`
         .container {
           width: 100%;
-          min-height: 40vh;
+          min-height: clamp(30vh, 8vw, 70vh);
           background: #000000;
           display: flex;
           align-items: center;
           justify-content: center;
           overflow: hidden;
           position: relative;
-          padding: 40px 20px;
+          padding: clamp(15px, 4vw, 120px) 0;
         }
 
         .dotGrid {
           display: grid;
-          gap: 12px;
-          max-width: 1400px;
+          gap: clamp(5px, 1.5vw, 36px);
+          max-width: clamp(300px, 80vw, 4200px);
           width: 100%;
           height: 100%;
           position: absolute;
@@ -208,8 +208,8 @@ const DotGrid = () => {
         }
 
         .dot {
-          width: 2px;
-          height: 2px;
+          width: clamp(1px, 0.3vw, 6px);
+          height: clamp(1px, 0.3vw, 6px);
           border-radius: 50%;
           background: #0e90e0;
           opacity: 0;
@@ -220,8 +220,8 @@ const DotGrid = () => {
           position: relative;
           z-index: 10;
           text-align: center;
-          max-width: 1200px;
-          padding: 0 20px;
+          max-width: clamp(300px, 80vw, 1200px);
+          padding: 0 clamp(8px, 2vw, 20px);
           display: flex;
           flex-direction: column;
           align-items: center;
@@ -229,7 +229,7 @@ const DotGrid = () => {
         }
 
         .title {
-          font-size: 1.6rem;
+          font-size: clamp(0.7rem, 4vw, 1.6rem);
           font-weight: normal;
           color: #ffffff;
           letter-spacing: 0.01em;
@@ -237,14 +237,16 @@ const DotGrid = () => {
           text-transform: uppercase;
           font-family: 'Gonero-Light', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
           line-height: 1.1;
-          max-width: 1200px;
+          max-width: 100%;
           white-space: nowrap;
+          overflow: hidden;
+          text-overflow: ellipsis;
         }
 
         .button {
           display: inline-block;
-          padding: 8px 100px;
-          font-size: 2.5rem;
+          padding: clamp(4px, 1vw, 8px) clamp(25px, 8vw, 100px);
+          font-size: clamp(1rem, 5vw, 2.5rem);
           font-weight: normal;
           color: #ffffff;
           background: linear-gradient(135deg, #0900FF 0%, #0040FF 100%);
@@ -259,6 +261,10 @@ const DotGrid = () => {
             0 0 45px rgba(0, 64, 255, 0.1);
           animation: buttonGlow 2s ease-in-out infinite;
           font-family: 'Gonero-SemiExpanded', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
+          max-width: 90%;
+          white-space: nowrap;
+          overflow: hidden;
+          text-overflow: ellipsis;
         }
 
         .button:hover {
@@ -285,26 +291,73 @@ const DotGrid = () => {
         }
 
         @media (max-width: 1024px) {
-          .title { font-size: 1.3rem; margin: 0 0 0 0; line-height: 1.1; font-family: 'Gonero-Light', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif; white-space: nowrap; }
-          .button { font-size: 2rem; padding: 6px 80px; font-family: 'Gonero-SemiExpanded', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif; }
+          .title { margin: 0 0 0 0; line-height: 1.1; font-family: 'Gonero-Light', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif; white-space: nowrap; }
+          .button { font-family: 'Gonero-SemiExpanded', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif; }
           .dotGrid { gap: 9px; }
           .dot { width: 1.5px; height: 1.5px; }
           .container { padding: 35px 20px; }
         }
 
         @media (max-width: 768px) {
-          .container { min-height: 35vh; padding: 30px 15px; }
-          .title { font-size: 1rem; line-height: 1.1; margin: 0 0 0 0; font-family: 'Gonero-Light', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif; white-space: nowrap; }
-          .button { font-size: 1.5rem; padding: 5px 60px; font-family: 'Gonero-SemiExpanded', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif; }
-          .dotGrid { gap: 7.5px; }
-          .dot { width: 1.25px; height: 1.25px; }
+          .container { min-height: 40vh; padding: 25px 12px; }
+          .title { 
+            line-height: 1.2; 
+            margin: 0 0 0 0; 
+            font-family: 'Gonero-Light', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif; 
+            white-space: normal;
+            overflow: visible;
+            text-overflow: unset;
+          }
+          .button { font-family: 'Gonero-SemiExpanded', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif; }
+          .dotGrid { gap: 8px; max-width: 100%; }
+          .dot { width: 1.5px; height: 1.5px; }
+        }
+
+        @media (min-width: 1920px) {
+          .title { margin: 0 0 0 0; line-height: 1.1; font-family: 'Gonero-Light', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif; white-space: nowrap; }
+          .button { font-family: 'Gonero-SemiExpanded', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif; }
+        }
+
+        @media (min-width: 2560px) {
+          .title { margin: 0 0 0 0; line-height: 1.1; font-family: 'Gonero-Light', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif; white-space: nowrap; }
+          .button { font-family: 'Gonero-SemiExpanded', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif; }
+        }
+
+        @media (min-width: 3840px) {
+          .container { padding: 120px 60px; min-height: 70vh; }
+          .title { font-size: 4.8rem; margin: 0 0 0 0; line-height: 1.1; font-family: 'Gonero-Light', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif; white-space: nowrap; }
+          .button { font-size: 7.5rem; padding: 24px 300px; font-family: 'Gonero-SemiExpanded', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif; }
+          .dotGrid { gap: 36px; max-width: 4200px; }
+          .dot { width: 6px; height: 6px; }
         }
 
         @media (max-width: 480px) {
-          .container { padding: 25px 10px; min-height: 30vh; }
-          .title { font-size: 0.75rem; margin: 0 0 0 0; line-height: 1.1; font-family: 'Gonero-Light', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif; white-space: nowrap; }
-          .button { font-size: 1.1rem; padding: 4px 40px; font-family: 'Gonero-SemiExpanded', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif; }
-          .dotGrid { gap: 6px; }
+          .container { padding: 20px 8px; min-height: 35vh; }
+          .title { 
+            margin: 0 0 0 0; 
+            line-height: 1.2; 
+            font-family: 'Gonero-Light', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif; 
+            white-space: normal;
+            overflow: visible;
+            text-overflow: unset;
+          }
+          .button { font-family: 'Gonero-SemiExpanded', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif; }
+          .dotGrid { gap: 6px; max-width: 100%; }
+          .dot { width: 1.2px; height: 1.2px; }
+        }
+
+        @media (max-width: 360px) {
+          .container { padding: 15px 6px; min-height: 30vh; }
+          .title { 
+            margin: 0 0 0 0; 
+            line-height: 1.2; 
+            font-family: 'Gonero-Light', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif; 
+            white-space: normal;
+            overflow: visible;
+            text-overflow: unset;
+          }
+          .button { font-family: 'Gonero-SemiExpanded', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif; }
+          .dotGrid { gap: 5px; max-width: 100%; }
           .dot { width: 1px; height: 1px; }
         }
       `}</style>

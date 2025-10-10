@@ -1,7 +1,7 @@
 .container {
   width: 100%;
   min-height: auto;
-  padding: 2rem 4rem;
+  padding: clamp(1rem, 3vw, 2rem) clamp(1.5rem, 5vw, 4rem);
   position: relative;
   display: flex;
   align-items: center;
@@ -29,7 +29,7 @@
 
 .title {
   font-family: 'Gonero-ExtraExpanded', 'Arial Black', sans-serif;
-  font-size: 4rem;
+  font-size: clamp(2rem, 5vw, 4rem);
   font-weight: normal;
   color: white;
   letter-spacing: 0.1em;
@@ -40,7 +40,7 @@
 
 .subtitle {
   font-family: 'Gonero-ExtraExpanded', 'Arial', sans-serif;
-  font-size: 1.3rem;
+  font-size: clamp(0.85rem, 2vw, 1.3rem);
   font-weight: normal;
   color: rgba(255, 255, 255, 0.8);
   letter-spacing: 0.15em;
@@ -51,8 +51,11 @@
 .cardsGrid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: 2rem;
+  gap: clamp(1rem, 3vw, 2rem);
   margin-bottom: 3rem;
+  max-width: clamp(600px, 80vw, 1000px);
+  margin-left: auto;
+  margin-right: auto;
 }
 
 .card {
@@ -60,12 +63,12 @@
   backdrop-filter: blur(10px);
   -webkit-backdrop-filter: blur(10px);
   border: 1px solid rgba(255, 255, 255, 0.1);
-  border-radius: 16px;
-  padding: 1rem 0.75rem;
-  min-height: 150px;
+  border-radius: clamp(12px, 2vw, 16px);
+  padding: clamp(1.2rem, 3vw, 2rem) clamp(0.8rem, 2.5vw, 1.5rem);
+  min-height: clamp(200px, 25vw, 280px);
   display: flex;
   flex-direction: column;
-  gap: 0.75rem;
+  gap: clamp(0.8rem, 2vw, 1.2rem);
   transition: all 0.3s ease;
   opacity: 0;
   animation: fadeInUp 0.6s ease-out forwards;
@@ -92,7 +95,7 @@
 
 .cardTitle {
   font-family: 'Poppins', sans-serif;
-  font-size: 0.95rem;
+  font-size: clamp(1rem, 2.5vw, 1.4rem);
   font-weight: 600;
   color: white;
   letter-spacing: 0.05em;
@@ -103,105 +106,101 @@
 
 .cardDescription {
   font-family: 'Poppins', sans-serif;
-  font-size: 0.75rem;
+  font-size: clamp(0.8rem, 1.8vw, 1rem);
   font-weight: 400;
-  line-height: 1.5;
+  line-height: 1.6;
   color: rgba(255, 255, 255, 0.75);
   text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
 }
 
+/* Large screens scaling */
+@media (min-width: 1920px) {
+  .container {
+    padding: 3rem 6rem;
+  }
+  
+  .content {
+    max-width: 1800px;
+  }
+  
+  .cardsGrid {
+    max-width: 1400px;
+    gap: 3rem;
+  }
+  
+  .card {
+    min-height: 350px;
+    padding: 3rem 2.5rem;
+  }
+}
+
+@media (min-width: 2560px) {
+  .container {
+    padding: 4rem 8rem;
+  }
+  
+  .content {
+    max-width: 2400px;
+  }
+  
+  .cardsGrid {
+    max-width: 1800px;
+    gap: 4rem;
+  }
+  
+  .card {
+    min-height: 400px;
+    padding: 4rem 3rem;
+  }
+}
+
+@media (min-width: 3840px) {
+  .container {
+    padding: 6rem 12rem;
+  }
+  
+  .content {
+    max-width: 3600px;
+  }
+  
+  .cardsGrid {
+    max-width: 2700px;
+    gap: 6rem;
+  }
+  
+  .card {
+    min-height: 500px;
+    padding: 6rem 4rem;
+  }
+}
+
 /* Tablet */
 @media (max-width: 1024px) {
-  .container {
-    padding: 2rem 3rem;
-  }
-
-  .title {
-    font-size: 3rem;
-  }
-
-  .subtitle {
-    font-size: 1.1rem;
-  }
-
   .cardsGrid {
     grid-template-columns: 1fr;
-    gap: 1.5rem;
-    max-width: 700px;
+    max-width: 600px;
     margin: 0 auto 3rem;
-  }
-
-  .card {
-    min-height: auto;
-    padding: 0.9rem 0.7rem;
   }
 }
 
 /* Mobile */
 @media (max-width: 768px) {
-  .container {
-    padding: 1.5rem 2rem;
-  }
-
   .header {
     margin-bottom: 2rem;
-  }
-
-  .title {
-    font-size: 2.5rem;
-  }
-
-  .subtitle {
-    font-size: 1rem;
   }
 
   .cardsGrid {
     gap: 1.25rem;
   }
-
-  .card {
-    padding: 0.8rem 0.6rem;
-  }
-
-  .cardTitle {
-    font-size: 0.85rem;
-  }
-
-  .cardDescription {
-    font-size: 0.7rem;
-  }
 }
 
 /* Small Mobile */
 @media (max-width: 480px) {
-  .container {
-    padding: 1rem 1.5rem;
-  }
-
-  .title {
-    font-size: 2rem;
-    letter-spacing: 0.05em;
-  }
-
-  .subtitle {
-    font-size: 0.85rem;
-  }
-
   .cardsGrid {
     gap: 1rem;
   }
 
   .card {
-    padding: 0.7rem 0.5rem;
     border-radius: 12px;
-  }
-
-  .cardTitle {
-    font-size: 0.75rem;
-  }
-
-  .cardDescription {
-    font-size: 0.65rem;
-    line-height: 1.4;
   }
 }

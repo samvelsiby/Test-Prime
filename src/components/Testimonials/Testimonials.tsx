@@ -251,7 +251,6 @@ const Testimonials = () => {
         {/* Rotating explore icon - centered and overlapping */}
         <div 
           className="explore-icon"
-          onClick={() => setShowTestimonials(!showTestimonials)}
           style={{
             position: 'absolute',
             top: '50%',
@@ -263,7 +262,7 @@ const Testimonials = () => {
             alignItems: 'center',
             justifyContent: 'center',
             zIndex: 10,
-            cursor: 'pointer'
+            cursor: 'default'
           }}>
           <div style={{
             animation: 'rotate 20s linear infinite',
