@@ -5,14 +5,66 @@ const DotGrid: React.FC = () => {
   const containerRef = useRef<HTMLDivElement>(null);
   const dotRefs = useRef<(HTMLDivElement | null)[]>([]);
   const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
+  const [gridSize, setGridSize] = useState({ rows: 40, cols: 80 });
   
-  // Create a grid of dots
-  const rows = 40;
-  const cols = 80;
-  const dots = [];
+  // Dynamic grid sizing based on screen size - maintaining 2:1 aspect ratio
+  useEffect(() => {
+    const updateGridSize = () => {
+      const width = window.innerWidth;
+      const height = window.innerHeight;
+      
+      // Base grid size for reference (40x80 = 2:1 ratio)
+      const baseRows = 40;
+      const baseCols = 80;
+      const aspectRatio = baseCols / baseRows; // 2:1
+      
+      let scaleFactor = 1;
+      
+      if (width >= 3840) {
+        // 4K+ screens - 1.5x scale
+        scaleFactor = 1.5;
+      } else if (width >= 2560) {
+        // 1440p+ screens - 1.25x scale
+        scaleFactor = 1.25;
+      } else if (width >= 1920) {
+        // 1080p+ screens - 1.125x scale
+        scaleFactor = 1.125;
+      } else if (width >= 1400) {
+        // Large desktop - 1x scale
+        scaleFactor = 1;
+      } else if (width >= 1200) {
+        // Desktop - 0.875x scale
+        scaleFactor = 0.875;
+      } else if (width >= 1024) {
+        // Tablet landscape - 0.75x scale
+        scaleFactor = 0.75;
+      } else if (width >= 768) {
+        // Tablet portrait - 0.625x scale
+        scaleFactor = 0.625;
+      } else if (width >= 480) {
+        // Mobile landscape - 0.5x scale
+        scaleFactor = 0.5;
+      } else {
+        // Mobile portrait - 0.4x scale
+        scaleFactor = 0.4;
+      }
+      
+      // Calculate rows and cols maintaining aspect ratio
+      const rows = Math.round(baseRows * scaleFactor);
+      const cols = Math.round(baseCols * scaleFactor);
+      
+      setGridSize({ rows, cols });
+    };
 
-  for (let i = 0; i < rows; i++) {
-    for (let j = 0; j < cols; j++) {
+    updateGridSize();
+    window.addEventListener('resize', updateGridSize);
+    return () => window.removeEventListener('resize', updateGridSize);
+  }, []);
+
+  // Create a grid of dots based on dynamic size
+  const dots = [];
+  for (let i = 0; i < gridSize.rows; i++) {
+    for (let j = 0; j < gridSize.cols; j++) {
       dots.push({ row: i, col: j });
     }
   }
@@ -107,7 +159,13 @@ const DotGrid: React.FC = () => {
         }}
       />
       
-      <div className={styles.dotGrid}>
+      <div 
+        className={styles.dotGrid}
+        style={{
+          '--rows': gridSize.rows,
+          '--cols': gridSize.cols,
+        } as React.CSSProperties}
+      >
         {dots.map((dot, index) => (
           <div
             key={index}

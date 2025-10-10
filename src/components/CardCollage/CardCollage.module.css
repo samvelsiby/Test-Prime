@@ -12,6 +12,128 @@
   grid-template-rows: repeat(3, 200px);
   gap: 1rem;
   width: 100%;
+  aspect-ratio: 5 / 3; /* Maintain 5:3 aspect ratio for the grid */
+}
+
+/* Large screen scaling - proportional scaling */
+@media (min-width: 1920px) {
+  .collageContainer {
+    max-width: 1800px; /* 1200px * 1.5 */
+    padding: 3rem; /* 2rem * 1.5 */
+  }
+  
+  .cardGrid {
+    gap: 1.5rem; /* 1rem * 1.5 */
+    grid-template-rows: repeat(3, 300px); /* 200px * 1.5 */
+  }
+  
+  .card {
+    border-radius: 18px; /* 12px * 1.5 */
+  }
+  
+  .cardContent {
+    padding: 2.25rem; /* 1.5rem * 1.5 */
+  }
+  
+  .cardTitle {
+    font-size: 1.8rem; /* 1.2rem * 1.5 */
+  }
+  
+  .card:nth-child(1) .cardTitle {
+    font-size: 2.4rem; /* 1.6rem * 1.5 */
+  }
+  
+  .cardTitleOverlay {
+    font-size: 1.95rem; /* 1.3rem * 1.5 */
+  }
+  
+  .card:nth-child(1) .cardTitleOverlay {
+    font-size: 2.7rem; /* 1.8rem * 1.5 */
+  }
+  
+  .cardDescriptionText {
+    font-size: 1.275rem; /* 0.85rem * 1.5 */
+  }
+}
+
+@media (min-width: 2560px) {
+  .collageContainer {
+    max-width: 2400px; /* 1200px * 2 */
+    padding: 4rem; /* 2rem * 2 */
+  }
+  
+  .cardGrid {
+    gap: 2rem; /* 1rem * 2 */
+    grid-template-rows: repeat(3, 400px); /* 200px * 2 */
+  }
+  
+  .card {
+    border-radius: 24px; /* 12px * 2 */
+  }
+  
+  .cardContent {
+    padding: 3rem; /* 1.5rem * 2 */
+  }
+  
+  .cardTitle {
+    font-size: 2.4rem; /* 1.2rem * 2 */
+  }
+  
+  .card:nth-child(1) .cardTitle {
+    font-size: 3.2rem; /* 1.6rem * 2 */
+  }
+  
+  .cardTitleOverlay {
+    font-size: 2.6rem; /* 1.3rem * 2 */
+  }
+  
+  .card:nth-child(1) .cardTitleOverlay {
+    font-size: 3.6rem; /* 1.8rem * 2 */
+  }
+  
+  .cardDescriptionText {
+    font-size: 1.7rem; /* 0.85rem * 2 */
+  }
+}
+
+@media (min-width: 3840px) {
+  .collageContainer {
+    max-width: 3600px; /* 1200px * 3 */
+    padding: 6rem; /* 2rem * 3 */
+  }
+  
+  .cardGrid {
+    gap: 3rem; /* 1rem * 3 */
+    grid-template-rows: repeat(3, 600px); /* 200px * 3 */
+  }
+  
+  .card {
+    border-radius: 36px; /* 12px * 3 */
+  }
+  
+  .cardContent {
+    padding: 4.5rem; /* 1.5rem * 3 */
+  }
+  
+  .cardTitle {
+    font-size: 3.6rem; /* 1.2rem * 3 */
+  }
+  
+  .card:nth-child(1) .cardTitle {
+    font-size: 4.8rem; /* 1.6rem * 3 */
+  }
+  
+  .cardTitleOverlay {
+    font-size: 3.9rem; /* 1.3rem * 3 */
+  }
+  
+  .card:nth-child(1) .cardTitleOverlay {
+    font-size: 5.4rem; /* 1.8rem * 3 */
+  }
+  
+  .cardDescriptionText {
+    font-size: 2.55rem; /* 0.85rem * 3 */
+  }
 }
 
 /* Card size variations to match the image layout */
@@ -351,10 +473,85 @@
 }
 
 /* Responsive Design */
+/* Responsive adjustments for smaller screens - proportional scaling */
+@media (max-width: 1200px) {
+  .collageContainer {
+    max-width: 1000px; /* 1200px * 0.833 */
+    padding: 1.67rem; /* 2rem * 0.833 */
+  }
+  
+  .cardGrid {
+    gap: 0.83rem; /* 1rem * 0.833 */
+    grid-template-rows: repeat(3, 167px); /* 200px * 0.833 */
+  }
+  
+  .card {
+    border-radius: 10px; /* 12px * 0.833 */
+  }
+  
+  .cardContent {
+    padding: 1.25rem; /* 1.5rem * 0.833 */
+  }
+  
+  .cardTitle {
+    font-size: 1rem; /* 1.2rem * 0.833 */
+  }
+  
+  .card:nth-child(1) .cardTitle {
+    font-size: 1.33rem; /* 1.6rem * 0.833 */
+  }
+  
+  .cardTitleOverlay {
+    font-size: 1.08rem; /* 1.3rem * 0.833 */
+  }
+  
+  .card:nth-child(1) .cardTitleOverlay {
+    font-size: 1.5rem; /* 1.8rem * 0.833 */
+  }
+  
+  .cardDescriptionText {
+    font-size: 0.71rem; /* 0.85rem * 0.833 */
+  }
+}
+
 @media (max-width: 1024px) {
+  .collageContainer {
+    max-width: 800px; /* 1200px * 0.667 */
+    padding: 1.33rem; /* 2rem * 0.667 */
+  }
+  
   .cardGrid {
     grid-template-columns: repeat(3, 1fr);
-    grid-template-rows: repeat(4, 180px);
+    grid-template-rows: repeat(4, 133px); /* 200px * 0.667 */
+    gap: 0.67rem; /* 1rem * 0.667 */
+  }
+  
+  .card {
+    border-radius: 8px; /* 12px * 0.667 */
+  }
+  
+  .cardContent {
+    padding: 1rem; /* 1.5rem * 0.667 */
+  }
+  
+  .cardTitle {
+    font-size: 0.8rem; /* 1.2rem * 0.667 */
+  }
+  
+  .card:nth-child(1) .cardTitle {
+    font-size: 1.07rem; /* 1.6rem * 0.667 */
+  }
+  
+  .cardTitleOverlay {
+    font-size: 0.87rem; /* 1.3rem * 0.667 */
+  }
+  
+  .card:nth-child(1) .cardTitleOverlay {
+    font-size: 1.2rem; /* 1.8rem * 0.667 */
+  }
+  
+  .cardDescriptionText {
+    font-size: 0.57rem; /* 0.85rem * 0.667 */
   }
   
   .card:nth-child(1) {
@@ -410,35 +607,44 @@
 
 @media (max-width: 768px) {
   .collageContainer {
-    padding: 1rem;
+    max-width: 100%;
+    padding: 1rem; /* 2rem * 0.5 */
   }
   
   .cardGrid {
     grid-template-columns: repeat(2, 1fr);
-    grid-template-rows: repeat(5, 160px);
-    gap: 0.75rem;
+    grid-template-rows: repeat(5, 100px); /* 200px * 0.5 */
+    gap: 0.5rem; /* 1rem * 0.5 */
   }
   
   .card {
     grid-column: span 1 !important;
     grid-row: span 1 !important;
+    border-radius: 6px; /* 12px * 0.5 */
+  }
+  
+  .cardContent {
+    padding: 0.75rem; /* 1.5rem * 0.5 */
   }
   
   .cardTitle {
-    font-size: 1.1rem;
+    font-size: 0.6rem; /* 1.2rem * 0.5 */
   }
   
-  /* First card responsive - tablet */
   .card:nth-child(1) .cardTitle {
-    font-size: 1.4rem;
+    font-size: 0.8rem; /* 1.6rem * 0.5 */
+  }
+  
+  .cardTitleOverlay {
+    font-size: 0.65rem; /* 1.3rem * 0.5 */
   }
   
   .card:nth-child(1) .cardTitleOverlay {
-    font-size: 1.5rem;
+    font-size: 0.9rem; /* 1.8rem * 0.5 */
   }
   
-  .cardDescription p {
-    font-size: 0.75rem;
+  .cardDescriptionText {
+    font-size: 0.43rem; /* 0.85rem * 0.5 */
   }
 
   /* Keep images filling on tablet */
