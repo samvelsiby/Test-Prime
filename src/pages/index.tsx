@@ -407,7 +407,7 @@ export default function Home() {
             <p className="hero-subtitle">MORE THAN TRADING</p>
             <div className="hero-buttons">
               <RippleButton className="btn btn-primary" onClick={handleWaitlistClick}>
-                JOIN THE WAITLIST
+                APPLY HERE
               </RippleButton>
             </div>
           </div>
