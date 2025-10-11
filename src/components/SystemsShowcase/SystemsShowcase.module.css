@@ -4,7 +4,7 @@
   -webkit-backdrop-filter: blur(5px);
   border: 1px solid rgba(255, 255, 255, 0.1);
   box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
-  padding: 2rem 2rem 2rem 2rem; /* Added bottom padding */
+  padding: clamp(3rem, 8vw, 8rem) 2rem;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -14,7 +14,6 @@
   opacity: 0;
   transform: translateY(50px);
   transition: all 1s cubic-bezier(0.25, 0.1, 0.25, 1);
-  min-height: auto; /* Removed min-height: 100vh */
 }
 
 .container.visible {
@@ -34,14 +33,14 @@
 
 .header {
   text-align: center;
-  margin-bottom: 2rem; /* Reduced from 3rem */
+  margin-bottom: 3rem;
   z-index: 10;
   position: relative;
 }
 
 .title {
   font-family: 'Gonero-ExtraExpanded', 'Arial Black', sans-serif;
-  font-size: 2rem;
+  font-size: 2.5rem;
   font-weight: normal;
   color: #ffffff;
   text-transform: uppercase;
@@ -69,29 +68,15 @@
 }
 
 .systemCard {
-  background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
-  backdrop-filter: blur(5px);
-  -webkit-backdrop-filter: blur(5px);
-  border: 1px solid rgba(255, 255, 255, 0.2);
   border-radius: 25px;
   height: 450px;
   width: 320px;
   cursor: pointer;
-  transition: all 1.2s cubic-bezier(0.25, 0.46, 0.45, 0.94);
   position: relative;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 2.5rem;
-  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.4), 
-              inset 0 1px 0 rgba(255, 255, 255, 0.3),
-              inset 0 -1px 0 rgba(0, 0, 0, 0.1);
-  overflow: hidden;
+  perspective: 1000px;
   opacity: 0;
   animation: cardFadeIn 0.8s cubic-bezier(0.25, 0.1, 0.25, 1) forwards;
-  /* Optimize for better performance */
-  transform: translateZ(0);
-  will-change: transform;
+  transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 @keyframes cardFadeIn {
@@ -105,98 +90,79 @@
   }
 }
 
-.systemCard::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: -100%;
+.cardInner {
+  position: relative;
   width: 100%;
   height: 100%;
-  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
-  transition: left 0.8s ease;
-  z-index: 1;
+  transition: transform 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+  transform-style: preserve-3d;
 }
 
-.systemCard:hover::before {
-  left: 100%;
+.cardInner.flipped {
+  transform: rotateY(180deg);
 }
 
-/* Oracle card background - optimized with fallback */
-.systemCard:nth-child(1) {
+.cardFront,
+.cardBack {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  backface-visibility: hidden;
+  border-radius: 25px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2.5rem;
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.6);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.cardBack {
+  transform: rotateY(180deg);
+  flex-direction: column;
+  padding: 2rem;
+  background: linear-gradient(135deg, #005bf9 0%, #0047c7 50%, #003a9e 100%);
+}
+
+/* Oracle card front - with background image */
+.systemCard:nth-child(1) .cardFront {
   background: linear-gradient(135deg, #8B5CF6 0%, #6D28D9 50%, #4C1D95 100%);
   background-image: url('https://imagedelivery.net/-TAsjfo4iCAfiV6-gO1zSg/e53bb48e-c3ff-49e3-6757-a16b6fe2a300/public');
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
-  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.6), 
-              inset 0 1px 0 rgba(255, 255, 255, 0.4),
-              inset 0 -1px 0 rgba(0, 0, 0, 0.3);
-  /* Optimize image loading */
-  image-rendering: -webkit-optimize-contrast;
-  image-rendering: crisp-edges;
-  /* Smooth transition when image loads */
-  transition: background-image 0.3s ease;
 }
 
-/* Zonar card background - optimized with fallback */
-.systemCard:nth-child(2) {
+/* Zonar card front - with background image */
+.systemCard:nth-child(2) .cardFront {
   background: linear-gradient(135deg, #059669 0%, #047857 50%, #065F46 100%);
   background-image: url('https://imagedelivery.net/-TAsjfo4iCAfiV6-gO1zSg/02ef02aa-52d3-4af8-94db-56af4c257800/public');
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
-  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.6), 
-              inset 0 1px 0 rgba(255, 255, 255, 0.4),
-              inset 0 -1px 0 rgba(0, 0, 0, 0.3);
-  /* Optimize image loading */
-  image-rendering: -webkit-optimize-contrast;
-  image-rendering: crisp-edges;
-  /* Smooth transition when image loads */
-  transition: background-image 0.3s ease;
 }
 
-/* SyphonAI card background - optimized with fallback */
-.systemCard:nth-child(3) {
+/* SyphonAI card front - with background image */
+.systemCard:nth-child(3) .cardFront {
   background: linear-gradient(135deg, #DC2626 0%, #B91C1C 50%, #991B1B 100%);
   background-image: url('https://imagedelivery.net/-TAsjfo4iCAfiV6-gO1zSg/e518fbc6-8e0f-4493-de90-6d76e1fc9600/public');
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
-  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.6), 
-              inset 0 1px 0 rgba(255, 255, 255, 0.4),
-              inset 0 -1px 0 rgba(0, 0, 0, 0.3);
-  /* Optimize image loading */
-  image-rendering: -webkit-optimize-contrast;
-  image-rendering: crisp-edges;
-  /* Smooth transition when image loads */
-  transition: background-image 0.3s ease;
 }
 
 .systemCard:hover {
-  transform: translateY(-15px) scale(1.02);
-  box-shadow: 0 25px 50px rgba(0, 0, 0, 0.5), 
-              0 10px 20px rgba(255, 255, 255, 0.1),
-              inset 0 1px 0 rgba(255, 255, 255, 0.4),
-              inset 0 -1px 0 rgba(0, 0, 0, 0.2);
-  border: 1px solid rgba(255, 255, 255, 0.3);
+  transform: translateY(-10px) scale(1.02);
 }
 
 .systemCard.active {
   width: 70%;
-  height: 400px;
-  background: linear-gradient(135deg, #005bf9 0%, #0047c7 50%, #003a9e 100%);
-  border-radius: 30px;
+  height: 500px;
   z-index: 100;
-  box-shadow: 0 25px 50px rgba(0, 0, 0, 0.6);
   order: 2;
   position: relative;
   margin: 0 auto;
   flex-shrink: 0;
-}
-
-.systemCard.active .cardContent {
-  opacity: 0;
-  transition: none;
 }
 
 .systemCard.inactive {
@@ -289,142 +255,6 @@
   transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-.revealedContent {
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background: inherit;
-  border-radius: inherit;
-  padding: 2rem;
-  display: flex;
-  flex-direction: column;
-  z-index: 10;
-}
-
-  /* Left card (Oracle) - reveals from left */
-  .systemCard:nth-child(1) .revealedContent {
-    animation: revealFromLeft 1.2s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
-  }
-
-.systemCard:nth-child(1) .revealedContent::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background: linear-gradient(135deg, #8B5CF6 0%, #6D28D9 50%, #4C1D95 100%);
-  opacity: 0.85;
-  z-index: -1;
-  border-radius: inherit;
-}
-
-  /* Middle card (Zonar) - reveals from center */
-  .systemCard:nth-child(2) .revealedContent {
-    animation: revealFromCenter 1.2s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
-  }
-
-.systemCard:nth-child(2) .revealedContent::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background: linear-gradient(135deg, #8B5CF6 0%, #6D28D9 50%, #4C1D95 100%);
-  opacity: 0.85;
-  z-index: -1;
-  border-radius: inherit;
-}
-
-  /* Right card (SyphonAI) - reveals from right */
-  .systemCard:nth-child(3) .revealedContent {
-    animation: revealFromRight 1.2s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
-  }
-
-.systemCard:nth-child(3) .revealedContent::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background: linear-gradient(135deg, #8B5CF6 0%, #6D28D9 50%, #4C1D95 100%);
-  opacity: 0.85;
-  z-index: -2;
-  border-radius: inherit;
-}
-
-@keyframes revealFromLeft {
-  0% {
-    opacity: 0;
-    transform: scale(0.8) translateX(-100px) rotateY(-15deg);
-    filter: blur(10px);
-  }
-  30% {
-    opacity: 0.3;
-    transform: scale(0.9) translateX(-60px) rotateY(-8deg);
-    filter: blur(5px);
-  }
-  70% {
-    opacity: 0.8;
-    transform: scale(1.05) translateX(-10px) rotateY(2deg);
-    filter: blur(2px);
-  }
-  100% {
-    opacity: 1;
-    transform: scale(1) translateX(0) rotateY(0deg);
-    filter: blur(0);
-  }
-}
-
-@keyframes revealFromCenter {
-  0% {
-    opacity: 0;
-    transform: scale(0.7) rotateX(20deg);
-    filter: blur(15px);
-  }
-  30% {
-    opacity: 0.4;
-    transform: scale(0.85) rotateX(10deg);
-    filter: blur(8px);
-  }
-  70% {
-    opacity: 0.9;
-    transform: scale(1.08) rotateX(-3deg);
-    filter: blur(3px);
-  }
-  100% {
-    opacity: 1;
-    transform: scale(1) rotateX(0deg);
-    filter: blur(0);
-  }
-}
-
-@keyframes revealFromRight {
-  0% {
-    opacity: 0;
-    transform: scale(0.8) translateX(100px) rotateY(15deg);
-    filter: blur(10px);
-  }
-  30% {
-    opacity: 0.3;
-    transform: scale(0.9) translateX(60px) rotateY(8deg);
-    filter: blur(5px);
-  }
-  70% {
-    opacity: 0.8;
-    transform: scale(1.05) translateX(10px) rotateY(-2deg);
-    filter: blur(2px);
-  }
-  100% {
-    opacity: 1;
-    transform: scale(1) translateX(0) rotateY(0deg);
-    filter: blur(0);
-  }
-}
 
 .revealedHeader {
   display: flex;
@@ -518,93 +348,6 @@
   }
 }
 
-/* Close animations */
-@keyframes closeToLeft {
-  0% {
-    opacity: 1;
-    transform: scale(1) translateX(0) rotateY(0deg);
-    filter: blur(0);
-  }
-  30% {
-    opacity: 0.8;
-    transform: scale(0.98) translateX(-20px) rotateY(-5deg);
-    filter: blur(2px);
-  }
-  70% {
-    opacity: 0.4;
-    transform: scale(0.85) translateX(-60px) rotateY(-12deg);
-    filter: blur(8px);
-  }
-  100% {
-    opacity: 0;
-    transform: scale(0.7) translateX(-120px) rotateY(-20deg);
-    filter: blur(15px);
-  }
-}
-
-@keyframes closeToCenter {
-  0% {
-    opacity: 1;
-    transform: scale(1) rotateX(0deg);
-    filter: blur(0);
-  }
-  30% {
-    opacity: 0.8;
-    transform: scale(0.97) rotateX(5deg);
-    filter: blur(2px);
-  }
-  70% {
-    opacity: 0.4;
-    transform: scale(0.85) rotateX(15deg);
-    filter: blur(8px);
-  }
-  100% {
-    opacity: 0;
-    transform: scale(0.7) rotateX(25deg);
-    filter: blur(15px);
-  }
-}
-
-@keyframes closeToRight {
-  0% {
-    opacity: 1;
-    transform: scale(1) translateX(0) rotateY(0deg);
-    filter: blur(0);
-  }
-  30% {
-    opacity: 0.8;
-    transform: scale(0.98) translateX(20px) rotateY(5deg);
-    filter: blur(2px);
-  }
-  70% {
-    opacity: 0.4;
-    transform: scale(0.85) translateX(60px) rotateY(12deg);
-    filter: blur(8px);
-  }
-  100% {
-    opacity: 0;
-    transform: scale(0.7) translateX(120px) rotateY(20deg);
-    filter: blur(15px);
-  }
-}
-
-/* Enhanced card transitions */
-.systemCard.closing {
-  transition: all 1.2s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-}
-
-.systemCard.closing:nth-child(1) .revealedContent {
-  animation: closeToLeft 1.2s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
-}
-
-.systemCard.closing:nth-child(2) .revealedContent {
-  animation: closeToCenter 1.2s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
-}
-
-.systemCard.closing:nth-child(3) .revealedContent {
-  animation: closeToRight 1.2s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
-}
-
 .features {
   display: flex;
   flex-direction: column;
@@ -630,53 +373,10 @@
   animation: textReveal 1s cubic-bezier(0.25, 0.1, 0.25, 1) 0.4s both;
 }
 
-/* Large screen scaling - proportional scaling */
-@media (min-width: 1920px) {
-  .container {
-    padding: 3rem 3rem 3rem 3rem; /* Added bottom padding */
-  }
-  
-  .header {
-    margin-bottom: 3rem; /* 2rem * 1.5 */
-  }
-  
-  .title {
-    font-size: 3rem; /* 2rem * 1.5 */
-  }
-}
-
-@media (min-width: 2560px) {
-  .container {
-    padding: 4rem 4rem 4rem 4rem; /* Added bottom padding */
-  }
-  
-  .header {
-    margin-bottom: 4rem; /* 2rem * 2 */
-  }
-  
-  .title {
-    font-size: 4rem; /* 2rem * 2 */
-  }
-}
-
-@media (min-width: 3840px) {
-  .container {
-    padding: 6rem 6rem 6rem 6rem; /* Added bottom padding */
-  }
-  
-  .header {
-    margin-bottom: 6rem; /* 2rem * 3 */
-  }
-  
-  .title {
-    font-size: 6rem; /* 2rem * 3 */
-  }
-}
-
 /* Responsive Design */
 @media (max-width: 1200px) {
   .container {
-    padding: 1.5rem 1.5rem 1.5rem 1.5rem; /* Added bottom padding */
+    padding: clamp(3rem, 8vw, 8rem) 1.5rem;
   }
   
   .title {
@@ -691,13 +391,12 @@
 
 @media (max-width: 1024px) {
   .container {
-    padding: 1rem 1.5rem 1rem 1.5rem; /* Added bottom padding */
-    min-height: auto;
+    padding: clamp(3rem, 8vw, 8rem) 1.5rem;
   }
   
   .title {
     font-size: 2rem;
-    margin-bottom: 1.5rem; /* Reduced from 2rem */
+    margin-bottom: 2rem;
   }
   
   .systemsGrid {
@@ -764,12 +463,11 @@
 
 @media (max-width: 768px) {
   .container {
-    padding: 1rem 1rem 1rem 1rem; /* Added bottom padding */
-    min-height: auto;
+    padding: clamp(3rem, 8vw, 8rem) 1rem;
   }
   
   .header {
-    margin-bottom: 1.5rem; /* Reduced from 2rem */
+    margin-bottom: 2rem;
   }
   
   .title {
@@ -829,14 +527,14 @@
 
 @media (max-width: 640px) {
   .container {
-    padding: 0.5rem 0.8rem 0.5rem 0.8rem; /* Added bottom padding */
+    padding: clamp(3rem, 8vw, 8rem) 0.8rem;
   }
   
   .title {
     font-size: 1.5rem;
     padding: 0 1rem;
     text-align: center;
-    margin-bottom: 1rem; /* Reduced from 1.5rem */
+    margin-bottom: 1.5rem;
   }
   
   .systemsGrid {
@@ -915,12 +613,12 @@
 
 @media (max-width: 480px) {
   .container {
-    padding: 0.3rem 0.5rem 0.3rem 0.5rem; /* Added bottom padding */
+    padding: clamp(3rem, 8vw, 8rem) 0.5rem;
   }
   
   .title {
     font-size: 1.3rem;
-    margin-bottom: 0.8rem; /* Reduced from 1rem */
+    margin-bottom: 1rem;
   }
   
   .systemsGrid {

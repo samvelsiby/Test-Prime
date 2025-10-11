@@ -14,7 +14,7 @@ const systemsData: System[] = [
     id: 1,
     name: "Oracle",
     title: "Tools to let grow",
-    description: "Oracle is an automated trade journal built for serious traders. It connects directly to your trading account, capturing every trade and turning raw data into powerful insights. No more spreadsheets or missed entries — just a clean, visual dashboard showing your win rates, risk-to-reward, drawdowns, and performance patterns. With built-in journaling and behavior tracking, Oracle helps you uncover strengths, correct weaknesses, and develop the consistency needed to trade like a professional.",
+    description: "Oracle is an automated trade journal built for serious traders. It connects directly to your trading account, capturing every trade and turning raw data into powerful insights. No more spreadsheets or missed entries  just a clean, visual dashboard showing your win rates, risk-to-reward, drawdowns, and performance patterns. With built-in journaling and behavior tracking, Oracle helps you uncover strengths, correct weaknesses, and develop the consistency needed to trade like a professional.",
     features: []
   },
   {
@@ -37,43 +37,37 @@ const SystemsShowcase = () => {
   const [selectedSystem, setSelectedSystem] = useState<number | null>(null);
   const [isVisible, setIsVisible] = useState(false);
   const [imagesLoaded, setImagesLoaded] = useState(false);
-  const [isClosing, setIsClosing] = useState(false);
   const containerRef = useRef<HTMLDivElement>(null);
   const cardsRef = useRef<(HTMLDivElement | null)[]>([]);
 
   useEffect(() => {
-    // Disable individual component animation - now handled by unified flow
-    // const observer = new IntersectionObserver(
-    //   (entries) => {
-    //     entries.forEach((entry) => {
-    //       if (entry.isIntersecting) {
-    //         setIsVisible(true);
-    //         // Preload images when component becomes visible
-    //         preloadImages();
-    //       }
-    //     });
-    //   },
-    //   { threshold: 0.2 }
-    // );
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            setIsVisible(true);
+            // Preload images when component becomes visible
+            preloadImages();
+          }
+        });
+      },
+      { threshold: 0.2 }
+    );
 
-    // if (containerRef.current) {
-    //   observer.observe(containerRef.current);
-    // }
+    if (containerRef.current) {
+      observer.observe(containerRef.current);
+    }
 
-    // return () => observer.disconnect();
-    
-    // Always visible and preload images immediately
-    setIsVisible(true);
-    preloadImages();
+    return () => observer.disconnect();
   }, []);
 
   const preloadImages = () => {
     if (imagesLoaded) return;
     
     const imageUrls = [
-      'https://imagedelivery.net/-TAsjfo4iCAfiV6-gO1zSg/e53bb48e-c3ff-49e3-6757-a16b6fe2a300/public',
-      'https://imagedelivery.net/-TAsjfo4iCAfiV6-gO1zSg/02ef02aa-52d3-4af8-94db-56af4c257800/public',
-      'https://imagedelivery.net/-TAsjfo4iCAfiV6-gO1zSg/e518fbc6-8e0f-4493-de90-6d76e1fc9600/public'
+      '/images/oracle-bg-gradeint.png',
+      '/images/zonargrdeint-bg.png',
+      '/images/syphon-bg-gradient.png'
     ];
 
     let loadedCount = 0;
@@ -141,23 +135,11 @@ const SystemsShowcase = () => {
   }, [selectedSystem]);
 
   const handleCardClick = (systemId: number) => {
-    if (selectedSystem === systemId) {
-      // Close the currently selected card
-      handleCloseClick();
-    } else {
-      // Open a new card
-      setIsClosing(false);
-      setSelectedSystem(systemId);
-    }
+    setSelectedSystem(selectedSystem === systemId ? null : systemId);
   };
 
   const handleCloseClick = () => {
-    setIsClosing(true);
-    // Wait for close animation to complete before removing the selected system
-    setTimeout(() => {
-      setSelectedSystem(null);
-      setIsClosing(false);
-    }, 1200); // Match the CSS animation duration
+    setSelectedSystem(null);
   };
 
   return (
@@ -173,18 +155,20 @@ const SystemsShowcase = () => {
             ref={(el) => { cardsRef.current[index] = el; }}
             className={`${styles.systemCard} ${
               selectedSystem === system.id ? styles.active : ''
-            } ${selectedSystem && selectedSystem !== system.id ? styles.inactive : ''} ${
-              isClosing && selectedSystem === system.id ? styles.closing : ''
-            }`}
+            } ${selectedSystem && selectedSystem !== system.id ? styles.inactive : ''}`}
             style={{ animationDelay: `${index * 0.2}s` }}
             onClick={() => handleCardClick(system.id)}
           >
-            <div className={styles.cardContent}>
-              <h3 className={styles.systemName}>{system.name}</h3>
-            </div>
-            
-            {selectedSystem === system.id && (
-              <div className={styles.revealedContent}>
+            <div className={`${styles.cardInner} ${selectedSystem === system.id ? styles.flipped : ''}`}>
+              {/* Front of card */}
+              <div className={styles.cardFront}>
+                <div className={styles.cardContent}>
+                  <h3 className={styles.systemName}>{system.name}</h3>
+                </div>
+              </div>
+              
+              {/* Back of card */}
+              <div className={styles.cardBack}>
                 <div className={styles.revealedHeader}>
                   <button 
                     className={styles.closeButton}
@@ -206,7 +190,7 @@ const SystemsShowcase = () => {
                   </div>
                 </div>
               </div>
-            )}
+            </div>
           </div>
         ))}
       </div>

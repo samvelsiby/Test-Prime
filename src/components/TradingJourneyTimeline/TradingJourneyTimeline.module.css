@@ -1,0 +1,364 @@
+.wrapper {
+  width: 100%;
+  background: linear-gradient(135deg, #0a0a0a 0%, #1a1a2e 50%, #16213e 100%);
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  padding: 5rem 1rem;
+  min-height: 100vh;
+}
+
+.maxWidth {
+  max-width: 80rem;
+  margin: 0 auto;
+  padding: 0 1rem 4rem 1rem;
+}
+
+.mainTitle {
+  font-family: 'Gonero-ExtraExpanded', 'Arial Black', sans-serif;
+  font-size: clamp(2.5rem, 5vw, 4rem);
+  font-weight: normal;
+  color: #ffffff;
+  text-align: center;
+  margin-bottom: 1rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.mainSubtitle {
+  font-family: 'Gonero-Light', 'Arial', sans-serif;
+  color: #cfefff;
+  font-size: clamp(1rem, 2vw, 1.25rem);
+  text-align: center;
+  opacity: 0.9;
+  margin-bottom: 0;
+}
+
+.relativeWrapper {
+  position: relative;
+  max-width: 80rem;
+  margin: 0 auto;
+}
+
+.timelineItem {
+  display: flex;
+  align-items: center;
+  padding: 3rem 0;
+  position: relative;
+  min-height: 200px;
+}
+
+.timelineItem.left {
+  justify-content: flex-start;
+  padding-left: 2rem;
+}
+
+.timelineItem.right {
+  justify-content: flex-end;
+  padding-right: 2rem;
+}
+
+.stepContent {
+  display: flex;
+  align-items: center;
+  gap: 2rem;
+  max-width: 45%;
+  position: relative;
+  z-index: 20;
+}
+
+.left .stepContent {
+  flex-direction: row;
+}
+
+.right .stepContent {
+  flex-direction: row-reverse;
+}
+
+.iconContainer {
+  flex-shrink: 0;
+  width: 120px;
+  height: 120px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.stepIcon {
+  width: 100px;
+  height: 100px;
+  object-fit: cover;
+  border-radius: 12px;
+}
+
+.textContent {
+  flex: 1;
+}
+
+.stepTitle {
+  font-family: 'Gonero-SemiExpanded', 'Arial Black', sans-serif;
+  font-size: clamp(1.2rem, 2.5vw, 1.8rem);
+  font-weight: 700;
+  color: #0235FF;
+  margin: 0 0 1rem 0;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  text-shadow: 0 0 10px rgba(2, 53, 255, 0.3);
+}
+
+.stepDescription {
+  font-family: 'Gonero-Light', 'Arial', sans-serif;
+  color: #ffffff;
+  font-size: clamp(0.9rem, 1.8vw, 1.1rem);
+  line-height: 1.6;
+  margin: 0;
+  opacity: 0.9;
+}
+
+.checkpoint {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: #0235FF;
+  box-shadow: 
+    0 0 10px rgba(2, 53, 255, 0.8),
+    0 0 20px rgba(2, 53, 255, 0.6),
+    0 0 30px rgba(2, 53, 255, 0.4);
+  z-index: 30;
+}
+
+.checkpoint::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.9);
+  box-shadow: 0 0 5px rgba(255, 255, 255, 0.8);
+}
+
+.absoluteLine {
+  position: absolute;
+  left: 50%;
+  width: 4px;
+  transform: translateX(-50%);
+  background: rgba(2, 53, 255, 0.2);
+  border-radius: 2px;
+  z-index: 10;
+}
+
+.gradientLine {
+  width: 100%;
+  background: linear-gradient(180deg, 
+    #0235FF 0%, 
+    #001FCC 50%, 
+    #000F99 100%
+  );
+  border-radius: 2px;
+  box-shadow: 0 0 20px rgba(2, 53, 255, 0.8);
+  position: relative;
+}
+
+.gradientLine::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(180deg, 
+    transparent 0%, 
+    rgba(255, 255, 255, 0.1) 50%, 
+    transparent 100%
+  );
+  border-radius: 2px;
+}
+
+/* Responsive Design */
+@media (max-width: 1024px) {
+  .wrapper {
+    padding: 3rem 1rem;
+  }
+  
+  .timelineItem {
+    padding: 2rem 0;
+    min-height: 150px;
+  }
+  
+  .timelineItem.left {
+    padding-left: 1.5rem;
+  }
+  
+  .timelineItem.right {
+    padding-right: 1.5rem;
+  }
+  
+  .stepContent {
+    max-width: 50%;
+    gap: 1.5rem;
+  }
+  
+  .iconContainer {
+    width: 100px;
+    height: 100px;
+  }
+  
+  .stepIcon {
+    width: 80px;
+    height: 80px;
+  }
+  
+  .checkpoint {
+    width: 10px;
+    height: 10px;
+  }
+  
+  .checkpoint::before {
+    width: 5px;
+    height: 5px;
+  }
+}
+
+@media (max-width: 768px) {
+  .wrapper {
+    padding: 2rem 1rem;
+  }
+  
+  .timelineItem {
+    padding: 2rem 0;
+    min-height: 150px;
+    justify-content: flex-start !important;
+    padding-left: 3.5rem !important;
+    padding-right: 1rem !important;
+  }
+  
+  .timelineItem.left,
+  .timelineItem.right {
+    justify-content: flex-start !important;
+    padding-left: 3.5rem !important;
+    padding-right: 1rem !important;
+  }
+  
+  .stepContent {
+    max-width: 100%;
+    gap: 1.5rem;
+    flex-direction: row !important;
+  }
+  
+  .left .stepContent,
+  .right .stepContent {
+    flex-direction: row !important;
+  }
+  
+  .iconContainer {
+    width: 70px;
+    height: 70px;
+  }
+  
+  .stepIcon {
+    width: 60px;
+    height: 60px;
+  }
+  
+  .checkpoint {
+    width: 10px;
+    height: 10px;
+    left: 1.5rem;
+    transform: translateY(-50%);
+  }
+  
+  .checkpoint::before {
+    width: 5px;
+    height: 5px;
+  }
+  
+  .absoluteLine {
+    width: 3px;
+    left: 1.5rem;
+    transform: none;
+  }
+  
+  .stepTitle {
+    font-size: clamp(1rem, 2.5vw, 1.3rem);
+  }
+  
+  .stepDescription {
+    font-size: clamp(0.85rem, 1.8vw, 1rem);
+  }
+}
+
+@media (max-width: 480px) {
+  .timelineItem {
+    padding: 1.5rem 0 !important;
+    min-height: 120px;
+    justify-content: flex-start !important;
+    padding-left: 2.5rem !important;
+    padding-right: 0.5rem !important;
+    align-items: flex-start;
+  }
+  
+  .timelineItem.left,
+  .timelineItem.right {
+    justify-content: flex-start !important;
+    padding-left: 2.5rem !important;
+    padding-right: 0.5rem !important;
+  }
+  
+  .stepContent {
+    max-width: 100%;
+    flex-direction: column !important;
+    gap: 0.75rem;
+    align-items: flex-start;
+  }
+  
+  .left .stepContent,
+  .right .stepContent {
+    flex-direction: column !important;
+    align-items: flex-start;
+  }
+  
+  .iconContainer {
+    width: 50px;
+    height: 50px;
+  }
+  
+  .stepIcon {
+    width: 45px;
+    height: 45px;
+  }
+  
+  .textContent {
+    text-align: left;
+  }
+  
+  .checkpoint {
+    width: 8px;
+    height: 8px;
+    left: 1rem;
+    transform: translateY(-50%);
+  }
+  
+  .checkpoint::before {
+    width: 4px;
+    height: 4px;
+  }
+  
+  .absoluteLine {
+    width: 2px;
+    left: 1rem;
+    transform: none;
+  }
+  
+  .stepTitle {
+    font-size: clamp(0.9rem, 2.5vw, 1.1rem);
+  }
+  
+  .stepDescription {
+    font-size: clamp(0.75rem, 1.8vw, 0.9rem);
+  }
+}

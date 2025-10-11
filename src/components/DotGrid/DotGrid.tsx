@@ -11,7 +11,7 @@ const DotGrid = () => {
   const dotGridRef = useRef<HTMLDivElement>(null);
   const dotPositionsRef = useRef<DotPosition[]>([]);
   const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
-  const [gridSize, setGridSize] = useState({ rows: 40, cols: 80 });
+  const [gridSize, setGridSize] = useState({ rows: 60, cols: 120 });
   const [containerRect, setContainerRect] = useState<DOMRect | null>(null);
   
   // Dynamic grid sizing based on screen size
@@ -19,8 +19,8 @@ const DotGrid = () => {
     const updateGridSize = () => {
       const width = window.innerWidth;
       
-      const baseRows = 40;
-      const baseCols = 80;
+      const baseRows = 60;
+      const baseCols = 120;
       
       let scaleFactor = 1;
       
@@ -68,12 +68,13 @@ const DotGrid = () => {
       setContainerRect(gridRect);
     };
     
-    // Small delay to ensure layout is complete
-    const timer = setTimeout(updatePositions, 100);
+    // Use requestAnimationFrame for immediate rendering
+    requestAnimationFrame(() => {
+      updatePositions();
+    });
     
     window.addEventListener('resize', updatePositions);
     return () => {
-      clearTimeout(timer);
       window.removeEventListener('resize', updatePositions);
     };
   }, [gridSize]);
@@ -85,12 +86,13 @@ const DotGrid = () => {
     const updateDotBrightness = (mouseX: number, mouseY: number) => {
       if (!containerRect || dotPositionsRef.current.length === 0) return;
       
-      const maxDistance = 500;
+      const maxDistance = 400;
       const maxDistanceSquared = maxDistance * maxDistance;
       
       const positions = dotPositionsRef.current;
       const len = positions.length;
       
+      // Batch DOM updates
       for (let i = 0; i < len; i++) {
         const pos = positions[i];
         const dx = mouseX - pos.x;
@@ -99,8 +101,8 @@ const DotGrid = () => {
         
         if (distanceSquared < maxDistanceSquared) {
           const distance = Math.sqrt(distanceSquared);
-          const opacity = 1 - (distance / maxDistance);
-          pos.element.style.opacity = opacity.toString();
+          const opacity = Math.max(0, 1 - (distance / maxDistance));
+          pos.element.style.opacity = opacity.toFixed(2);
         } else {
           pos.element.style.opacity = '0';
         }
@@ -183,28 +185,31 @@ const DotGrid = () => {
       
       <style jsx>{`
         .container {
-          width: 100%;
-          min-height: clamp(30vh, 8vw, 70vh);
+          width: 100vw;
+          min-height: clamp(40vh, 50vh, 60vh);
           background: #000000;
           display: flex;
           align-items: center;
           justify-content: center;
           overflow: hidden;
           position: relative;
-          padding: clamp(15px, 4vw, 120px) 0;
+          padding: 0;
+          margin: 0;
+          margin-left: calc(-50vw + 50%);
+          margin-right: calc(-50vw + 50%);
         }
 
         .dotGrid {
           display: grid;
-          gap: clamp(5px, 1.5vw, 36px);
-          max-width: clamp(300px, 80vw, 4200px);
-          width: 100%;
+          gap: clamp(6px, 1vw, 16px);
+          width: 100vw;
           height: 100%;
           position: absolute;
-          top: 50%;
-          left: 50%;
-          transform: translate(-50%, -50%);
-          aspect-ratio: 2 / 1;
+          top: 0;
+          left: 0;
+          right: 0;
+          bottom: 0;
+          padding: clamp(20px, 3vw, 60px);
         }
 
         .dot {
@@ -262,9 +267,9 @@ const DotGrid = () => {
           animation: buttonGlow 2s ease-in-out infinite;
           font-family: 'Gonero-SemiExpanded', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
           max-width: 90%;
-          white-space: nowrap;
-          overflow: hidden;
-          text-overflow: ellipsis;
+          white-space: normal;
+          text-align: center;
+          line-height: 1.2;
         }
 
         .button:hover {
@@ -292,14 +297,17 @@ const DotGrid = () => {
 
         @media (max-width: 1024px) {
           .title { margin: 0 0 0 0; line-height: 1.1; font-family: 'Gonero-Light', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif; white-space: nowrap; }
-          .button { font-family: 'Gonero-SemiExpanded', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif; }
-          .dotGrid { gap: 9px; }
-          .dot { width: 1.5px; height: 1.5px; }
-          .container { padding: 35px 20px; }
+          .button { 
+            font-family: 'Gonero-SemiExpanded', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif; 
+            white-space: normal;
+          }
+          .dotGrid { gap: 8px; padding: 30px; }
+          .dot { width: 2px; height: 2px; }
+          .container { padding: 0; }
         }
 
         @media (max-width: 768px) {
-          .container { min-height: 40vh; padding: 25px 12px; }
+          .container { min-height: 40vh; padding: 0; }
           .title { 
             line-height: 1.2; 
             margin: 0 0 0 0; 
@@ -308,31 +316,45 @@ const DotGrid = () => {
             overflow: visible;
             text-overflow: unset;
           }
-          .button { font-family: 'Gonero-SemiExpanded', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif; }
-          .dotGrid { gap: 8px; max-width: 100%; }
+          .button { 
+            font-family: 'Gonero-SemiExpanded', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif; 
+            white-space: normal;
+          }
+          .dotGrid { gap: 7px; padding: 20px; }
           .dot { width: 1.5px; height: 1.5px; }
         }
 
         @media (min-width: 1920px) {
           .title { margin: 0 0 0 0; line-height: 1.1; font-family: 'Gonero-Light', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif; white-space: nowrap; }
-          .button { font-family: 'Gonero-SemiExpanded', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif; }
+          .button { 
+            font-family: 'Gonero-SemiExpanded', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif; 
+            white-space: normal;
+          }
         }
 
         @media (min-width: 2560px) {
           .title { margin: 0 0 0 0; line-height: 1.1; font-family: 'Gonero-Light', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif; white-space: nowrap; }
-          .button { font-family: 'Gonero-SemiExpanded', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif; }
+          .button { 
+            font-family: 'Gonero-SemiExpanded', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif; 
+            white-space: normal;
+          }
         }
 
         @media (min-width: 3840px) {
-          .container { padding: 120px 60px; min-height: 70vh; }
+          .container { padding: 0; min-height: 70vh; }
           .title { font-size: 4.8rem; margin: 0 0 0 0; line-height: 1.1; font-family: 'Gonero-Light', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif; white-space: nowrap; }
-          .button { font-size: 7.5rem; padding: 24px 300px; font-family: 'Gonero-SemiExpanded', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif; }
-          .dotGrid { gap: 36px; max-width: 4200px; }
-          .dot { width: 6px; height: 6px; }
+          .button { 
+            font-size: 7.5rem; 
+            padding: 24px 300px; 
+            font-family: 'Gonero-SemiExpanded', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif; 
+            white-space: normal;
+          }
+          .dotGrid { gap: 18px; padding: 80px; }
+          .dot { width: 5px; height: 5px; }
         }
 
         @media (max-width: 480px) {
-          .container { padding: 20px 8px; min-height: 35vh; }
+          .container { padding: 0; min-height: 35vh; }
           .title { 
             margin: 0 0 0 0; 
             line-height: 1.2; 
@@ -341,13 +363,16 @@ const DotGrid = () => {
             overflow: visible;
             text-overflow: unset;
           }
-          .button { font-family: 'Gonero-SemiExpanded', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif; }
-          .dotGrid { gap: 6px; max-width: 100%; }
+          .button { 
+            font-family: 'Gonero-SemiExpanded', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif; 
+            white-space: normal;
+          }
+          .dotGrid { gap: 6px; padding: 15px; }
           .dot { width: 1.2px; height: 1.2px; }
         }
 
         @media (max-width: 360px) {
-          .container { padding: 15px 6px; min-height: 30vh; }
+          .container { padding: 0; min-height: 30vh; }
           .title { 
             margin: 0 0 0 0; 
             line-height: 1.2; 
@@ -356,8 +381,11 @@ const DotGrid = () => {
             overflow: visible;
             text-overflow: unset;
           }
-          .button { font-family: 'Gonero-SemiExpanded', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif; }
-          .dotGrid { gap: 5px; max-width: 100%; }
+          .button { 
+            font-family: 'Gonero-SemiExpanded', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif; 
+            white-space: normal;
+          }
+          .dotGrid { gap: 5px; padding: 12px; }
           .dot { width: 1px; height: 1px; }
         }
       `}</style>

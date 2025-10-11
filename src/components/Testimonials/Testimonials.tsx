@@ -496,8 +496,10 @@ const Testimonials = () => {
         <div 
           ref={mountRef} 
           style={{
-            width: '800px',
-            height: '800px',
+            width: 'min(800px, 90vw)',
+            height: 'min(800px, 90vw)',
+            maxWidth: '1200px',
+            maxHeight: '1200px',
             position: 'relative',
             zIndex: 1
           }}
@@ -851,6 +853,24 @@ const Testimonials = () => {
           .stat-bottom-left {
             left: 15% !important;
             bottom: 22% !important;
+          }
+        }
+        
+        @media (min-width: 1920px) {
+          /* Large screens - scale up the sphere */
+          .main-content > div:first-child {
+            width: 1000px !important;
+            height: 1000px !important;
+            max-width: 1200px !important;
+            max-height: 1200px !important;
+          }
+        }
+        
+        @media (min-width: 1440px) and (max-width: 1919px) {
+          /* Medium-large screens */
+          .main-content > div:first-child {
+            width: 900px !important;
+            height: 900px !important;
           }
         }
         

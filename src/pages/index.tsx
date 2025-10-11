@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 import Head from 'next/head';
-import { CardCollage, Navigation, TheTruth,  JourneyTimeline,} from '../components';
+import { CardCollage, Navigation, TheTruth, JourneyTimeline, TradingJourneyTimeline } from '../components';
 import SystemsShowcase from '../components/SystemsShowcase/SystemsShowcase';
 import Testimonials from '../components/Testimonials/Testimonials';
 import Roadmap from '../components/Roadmap/Roadmap';
@@ -421,14 +421,17 @@ export default function Home() {
       </section>
 
 
-           {/* DotGrid Section */}
-           <section>
+      {/* DotGrid Section */}
+      <section style={{ margin: 0, padding: 0, width: '100%', overflow: 'hidden' }}>
         <DotGrid />
       </section>
 
 
       {/* Card Collage Section */}
-      <section id="products" className="cardcollage-section" style={{ minHeight: '100vh', padding: '4rem 0', scrollMarginTop: '80px' }}>
+      <section id="products" className="cardcollage-section" style={{ 
+        scrollMarginTop: '80px',
+        padding: 'clamp(3rem, 8vw, 8rem) 0'
+      }}>
         <CardCollage />
       </section>
 
@@ -454,8 +457,15 @@ export default function Home() {
 
      */}
       {/* Journey Timeline Section */}
-      <section id="journey-timeline" style={{ scrollMarginTop: '80px' }}>
+      {/* <section id="journey-timeline" style={{ scrollMarginTop: '80px' }}>
         <JourneyTimeline />
+      </section> */}
+
+
+
+      {/* Trading Journey Timeline Section */}
+      <section id="trading-journey" style={{ scrollMarginTop: '80px' }}>
+        <TradingJourneyTimeline />
       </section>
       {/* Systems Showcase Section */}
       <section>
@@ -469,9 +479,14 @@ export default function Home() {
 
 
       {/* FAQ Section */}
-      <section id="faq" style={{ minHeight: '100vh', scrollMarginTop: '80px' }}>
+      <section id="faq" style={{ 
+        scrollMarginTop: '80px',
+        padding: 'clamp(3rem, 8vw, 8rem) 0'
+      }}>
         <FAQ />
       </section>
+
+     
 
       {/* Footer */}
       <Footer />

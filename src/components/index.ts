@@ -8,3 +8,4 @@ export { default as TheTruth } from './TheTruth/TheTruth';
 export { default as AnimatedTimeline } from './AnimatedTimeline/AnimatedTimeline';
 export { default as AceternityTimeline } from './AceternityTimeline/AceternityTimeline';
 export { default as JourneyTimeline } from './JourneyTimeline/JourneyTimeline';
+export { default as TradingJourneyTimeline } from './TradingJourneyTimeline/TradingJourneyTimeline';
