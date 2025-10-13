@@ -136,10 +136,14 @@ export const TradingJourneyTimeline = () => {
               opacity: 1, 
               x: 0 
             }}
-            viewport={{ once: false, margin: "-100px", amount: 0.3 }}
+            exit={{ 
+              opacity: 0, 
+              x: item.side === 'left' ? -100 : 100 
+            }}
+            viewport={{ once: false, margin: "0px 0px -10% 0px", amount: 0.2 }}
             transition={{ 
-              duration: 0.6, 
-              delay: index * 0.1,
+              duration: 0.5, 
+              delay: 0,
               ease: [0.25, 0.1, 0.25, 1]
             }}
           >
@@ -147,10 +151,11 @@ export const TradingJourneyTimeline = () => {
               className={styles.stepContent}
               initial={{ opacity: 0, scale: 0.9 }}
               whileInView={{ opacity: 1, scale: 1 }}
-              viewport={{ once: false, margin: "-100px", amount: 0.3 }}
+              exit={{ opacity: 0, scale: 0.9 }}
+              viewport={{ once: false, margin: "0px 0px -10% 0px", amount: 0.2 }}
               transition={{ 
-                duration: 0.5, 
-                delay: index * 0.1 + 0.2,
+                duration: 0.4, 
+                delay: 0.1,
                 ease: [0.25, 0.1, 0.25, 1]
               }}
             >
@@ -175,10 +180,11 @@ export const TradingJourneyTimeline = () => {
               className={styles.checkpoint}
               initial={{ scale: 0, opacity: 0 }}
               whileInView={{ scale: 1, opacity: 1 }}
-              viewport={{ once: false, margin: "-100px", amount: 0.3 }}
+              exit={{ scale: 0, opacity: 0 }}
+              viewport={{ once: false, margin: "0px 0px -10% 0px", amount: 0.2 }}
               transition={{ 
-                duration: 0.4, 
-                delay: index * 0.1 + 0.3,
+                duration: 0.3, 
+                delay: 0.15,
                 ease: [0.25, 0.1, 0.25, 1]
               }}
             ></motion.div>
