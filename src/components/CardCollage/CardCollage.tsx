@@ -29,30 +29,22 @@ const cardData: Card[] = [
   },
   {
     id: 3,
-    title: "SYPHON AI",
-    description: "Advanced AI-powered trading insights and market analysis to enhance your trading decisions.",
+    title: "AFFILIATE TRAINING",
+    description: "Learn how to build a successful affiliate business and generate passive income streams.",
     backgroundColor: "linear-gradient(135deg, #136AEA 0%, #0F4687 100%)",
-    textColor: "#ffffff",
-    backgroundImage: "https://imagedelivery.net/-TAsjfo4iCAfiV6-gO1zSg/551a8832-ead7-454a-43f9-b22f5c86cb00/public"
-  },
-  {
-    id: 4,
-    title: "ORACLE TRADE TRACKER",
-    description: "Real-time trade tracking and portfolio management with advanced analytics and reporting.",
-    backgroundColor: "linear-gradient(135deg, #1551E8 0%, #103889 100%)",
     textColor: "#ffffff",
     backgroundImage: "https://imagedelivery.net/-TAsjfo4iCAfiV6-gO1zSg/bfd22540-f83c-43ff-858c-8f1f157c5300/public"
   },
   {
-    id: 5,
-    title: "TRADE ALERTS",
-    description: "Instant notifications for market opportunities and important trading signals.",
-    backgroundColor: "linear-gradient(135deg, #1E1EF4 0%, #101089 100%)",
+    id: 4,
+    title: "ORACLE  TRACKER",
+    description: "Real-time trade tracking and portfolio management with advanced analytics and reporting.",
+    backgroundColor: "linear-gradient(135deg, #1551E8 0%, #103889 100%)",
     textColor: "#ffffff",
-    backgroundImage: "https://imagedelivery.net/-TAsjfo4iCAfiV6-gO1zSg/1c36fffd-2fa3-4413-7ef2-302d75f0a500/public"
+    backgroundImage: "https://imagedelivery.net/-TAsjfo4iCAfiV6-gO1zSg/5422f012-2a9b-4525-ad53-a04cb74a2500/public"
   },
   {
-    id: 6,
+    id: 5,
     title: "LIVE MENTORSHIP CALLS",
     description: "Direct access to experienced traders through live sessions and personalized guidance.",
     backgroundColor: "linear-gradient(135deg, #501CF2 0%, #2B1391 100%)",
@@ -60,12 +52,20 @@ const cardData: Card[] = [
     backgroundImage: "https://imagedelivery.net/-TAsjfo4iCAfiV6-gO1zSg/726f24f3-bbfa-44f4-fc40-5af3bd97cb00/public"
   },
   {
+    id: 6,
+    title: "TRADE ALERTS",
+    description: "Instant notifications for market opportunities and important trading signals.",
+    backgroundColor: "linear-gradient(135deg, #1E1EF4 0%, #101089 100%)",
+    textColor: "#ffffff",
+    backgroundImage: "https://imagedelivery.net/-TAsjfo4iCAfiV6-gO1zSg/1c36fffd-2fa3-4413-7ef2-302d75f0a500/public"
+  },
+  {
     id: 7,
-    title: "ZONAR MARKET SCANNER",
+    title: "ZONAR  SCANNER",
     description: "Powerful market scanning tools to identify profitable trading opportunities in real-time.",
     backgroundColor: "linear-gradient(135deg, #6E1DED 0%, #3B118C 100%)",
     textColor: "#ffffff",
-    backgroundImage: "https://imagedelivery.net/-TAsjfo4iCAfiV6-gO1zSg/5422f012-2a9b-4525-ad53-a04cb74a2500/public"
+    backgroundImage: "https://imagedelivery.net/-TAsjfo4iCAfiV6-gO1zSg/0d4b3014-81b3-4e36-d1cf-832101968600/public"
   },
   {
     id: 8,
@@ -73,7 +73,7 @@ const cardData: Card[] = [
     description: "Premium travel perks and exclusive experiences for Prime Verse community members.",
     backgroundColor: "linear-gradient(135deg, #8B1BED 0%, #3E0D72 100%)",
     textColor: "#000000",
-    backgroundImage: "https://imagedelivery.net/-TAsjfo4iCAfiV6-gO1zSg/47313107-142e-40f8-14c9-f48894ce6800/public"
+    backgroundImage: "https://imagedelivery.net/-TAsjfo4iCAfiV6-gO1zSg/551a8832-ead7-454a-43f9-b22f5c86cb00/public"
   },
   {
     id: 9,
@@ -81,17 +81,18 @@ const cardData: Card[] = [
     description: "Comprehensive courses on building long-term wealth through smart trading and investment strategies.",
     backgroundColor: "linear-gradient(135deg, #A61BEF 0%, #560F84 100%)",
     textColor: "#000000",
-    backgroundImage: "https://imagedelivery.net/-TAsjfo4iCAfiV6-gO1zSg/0d4b3014-81b3-4e36-d1cf-832101968600/public"
+    backgroundImage: "https://imagedelivery.net/-TAsjfo4iCAfiV6-gO1zSg/47313107-142e-40f8-14c9-f48894ce6800/public"
   },
   {
     id: 10,
-    title: "AFFILIATE TRAINING",
-    description: "Learn how to build a successful affiliate business and generate passive income streams.",
+    title: "SYPHON AI",
+    description: "Advanced AI-powered trading insights and market analysis to enhance your trading decisions.",
     backgroundColor: "linear-gradient(135deg, #B018E8 0%, #650E89 100%)",
     textColor: "#ffffff",
     backgroundImage: "https://imagedelivery.net/-TAsjfo4iCAfiV6-gO1zSg/52e0bc40-5d91-4af9-5814-44e32e438300/public"
   }
 ];
+
 
 const CardCollage = () => {
   const [hoveredCard, setHoveredCard] = useState<number | null>(null);
