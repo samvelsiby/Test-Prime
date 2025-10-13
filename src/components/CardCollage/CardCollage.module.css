@@ -1,16 +1,16 @@
 .collageContainer {
   width: 100%;
-  max-width: 1400px;
+  max-width: 1200px;
   margin: 0 auto;
-  padding: 2rem clamp(2rem, 5vw, 6rem);
+  padding: 2rem;
   background: transparent;
 }
 
 .cardGrid {
   display: grid;
   grid-template-columns: repeat(5, 1fr);
-  grid-template-rows: repeat(3, clamp(180px, 16vw, 240px));
-  gap: clamp(0.8rem, 1.2vw, 1.2rem);
+  grid-template-rows: repeat(3, 200px);
+  gap: 1rem;
   width: 100%;
 }
 
@@ -167,7 +167,7 @@
 .cardContent {
   position: relative;
   height: 100%;
-  padding: clamp(1rem, 1.5vw, 1.5rem);
+  padding: 1.5rem;
   display: flex;
   flex-direction: column;
   justify-content: flex-end;
@@ -181,7 +181,7 @@
 .cardTitle {
   font-family: 'Gonero-SemiExpanded', 'Arial Black', sans-serif;
   font-weight: 700;
-  font-size: clamp(0.95rem, 1.3vw, 1.3rem);
+  font-size: 1.2rem;
   text-transform: uppercase;
   letter-spacing: 0.02em;
   line-height: 1.2;
@@ -194,7 +194,7 @@
 
 /* First card (THE PRIME VERSE ADVANTAGE) - bigger font as heading */
 .card:nth-child(1) .cardTitle {
-  font-size: clamp(1.3rem, 1.8vw, 1.7rem);
+  font-size: 1.6rem;
   font-weight: 800;
   letter-spacing: 0.03em;
   line-height: 1.1;
