@@ -43,16 +43,19 @@
 
 .timelineItem {
   display: flex;
-  justify-content: flex-start;
+  flex-direction: column;
+  align-items: center;
   padding-top: 2.5rem;
   padding-bottom: 2.5rem;
-  gap: 2.5rem;
+  gap: 1.5rem;
 }
 
 .stickyWrapper {
   flex-shrink: 0;
   width: 100%;
-  max-width: 20rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
   position: sticky;
   top: 6rem;
   align-self: flex-start;
@@ -60,12 +63,11 @@
 }
 
 .circleContainer {
-  position: absolute;
-  left: 0.1875rem;
-  top: 0;
+  position: relative;
   display: flex;
   align-items: center;
   justify-content: center;
+  margin-bottom: 1rem;
 }
 
 .circle {
@@ -89,7 +91,6 @@
 }
 
 .itemTitle {
-  padding-left: 5rem;
   font-size: 1.875rem;
   font-weight: 700;
   color: #ffffff;
@@ -98,11 +99,12 @@
   -webkit-background-clip: text;
   background-clip: text;
   color: transparent;
+  text-align: center;
 }
 
 .contentWrapper {
   width: 100%;
-  padding-left: 1rem;
+  max-width: 600px;
 }
 
 .contentCard {
@@ -156,8 +158,9 @@
 
 .absoluteLine {
   position: absolute;
-  left: 1.6875rem;
-  top: 2.5rem;
+  left: 50%;
+  transform: translateX(-50%);
+  top: 5rem;
   width: 4px;
   background: rgba(255, 255, 255, 0.1);
   overflow: hidden;
@@ -191,7 +194,6 @@
   }
 
   .timelineItem {
-    flex-direction: column;
     gap: 1rem;
     padding-top: 1.5rem;
     padding-bottom: 1.5rem;
@@ -201,11 +203,6 @@
     position: relative;
     top: 0;
     max-width: 100%;
-    padding-left: 5rem;
-  }
-
-  .circleContainer {
-    left: 0.1875rem;
   }
 
   .circle {
@@ -218,12 +215,7 @@
   }
 
   .itemTitle {
-    padding-left: 0;
     font-size: 1.5rem;
-  }
-
-  .contentWrapper {
-    padding-left: 5rem;
   }
 
   .contentCard {
@@ -235,8 +227,7 @@
   }
 
   .absoluteLine {
-    left: 1.4375rem;
-    top: 1.5rem;
+    top: 4rem;
   }
 }
 
@@ -254,10 +245,6 @@
     font-size: 0.9375rem;
   }
 
-  .stickyWrapper {
-    padding-left: 4rem;
-  }
-
   .circle {
     height: 2rem;
     width: 2rem;
@@ -271,10 +258,6 @@
     font-size: 1.25rem;
   }
 
-  .contentWrapper {
-    padding-left: 4rem;
-  }
-
   .contentCard {
     padding: 1.5rem;
   }
@@ -284,7 +267,6 @@
   }
 
   .absoluteLine {
-    left: 1.1875rem;
-    top: 1.5rem;
+    top: 3.5rem;
   }
 }

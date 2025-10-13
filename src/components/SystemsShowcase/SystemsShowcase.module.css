@@ -123,7 +123,21 @@
   transform: rotateY(180deg);
   flex-direction: column;
   padding: 2rem;
-  background: linear-gradient(135deg, #005bf9 0%, #0047c7 50%, #003a9e 100%);
+}
+
+/* Oracle card back - Purple theme */
+.systemCard:nth-child(1) .cardBack {
+  background: linear-gradient(135deg, #1551E8 0%, #103889 100%);
+}
+
+/* Zonar card back - Green theme */
+.systemCard:nth-child(2) .cardBack {
+  background: linear-gradient(135deg, #6E1DED 0%, #3B118C 100%);
+}
+
+/* SyphonAI card back - Red theme */
+.systemCard:nth-child(3) .cardBack {
+  background: linear-gradient(135deg, #B018E8 0%, #650E89 100%);
 }
 
 /* Oracle card front - with background image */
@@ -146,7 +160,8 @@
 
 /* SyphonAI card front - with background image */
 .systemCard:nth-child(3) .cardFront {
-  background: linear-gradient(135deg, #DC2626 0%, #B91C1C 50%, #991B1B 100%);
+  background: linear-gradient(135deg, #B018E8 0%, #650E89 100%);
+
   background-image: url('https://imagedelivery.net/-TAsjfo4iCAfiV6-gO1zSg/e518fbc6-8e0f-4493-de90-6d76e1fc9600/public');
   background-size: cover;
   background-position: center;
@@ -720,7 +735,7 @@
   
   .systemCard.active {
     width: 98%;
-    height: 240px;
+    height: 400px;
   }
   
   .systemCard.inactive {

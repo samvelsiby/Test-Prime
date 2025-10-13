@@ -58,19 +58,22 @@
 
 .stepContent {
   display: flex;
+  flex-direction: column;
   align-items: center;
-  gap: 2rem;
+  gap: 1.5rem;
   max-width: 45%;
   position: relative;
   z-index: 20;
 }
 
 .left .stepContent {
-  flex-direction: row;
+  flex-direction: column;
+  align-items: center;
 }
 
 .right .stepContent {
-  flex-direction: row-reverse;
+  flex-direction: column;
+  align-items: center;
 }
 
 .iconContainer {
@@ -201,6 +204,8 @@
   .stepContent {
     max-width: 50%;
     gap: 1.5rem;
+    flex-direction: column;
+    align-items: center;
   }
   
   .iconContainer {
@@ -247,12 +252,14 @@
   .stepContent {
     max-width: 100%;
     gap: 1.5rem;
-    flex-direction: row !important;
+    flex-direction: column !important;
+    align-items: center;
   }
   
   .left .stepContent,
   .right .stepContent {
-    flex-direction: row !important;
+    flex-direction: column !important;
+    align-items: center;
   }
   
   .iconContainer {
