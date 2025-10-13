@@ -125,8 +125,35 @@ export const TradingJourneyTimeline = () => {
 
       <div ref={ref} className={styles.relativeWrapper}>
         {timelineData.map((item, index) => (
-          <div key={index} className={`${styles.timelineItem} ${styles[item.side]}`}>
-            <div className={styles.stepContent}>
+          <motion.div 
+            key={index} 
+            className={`${styles.timelineItem} ${styles[item.side]}`}
+            initial={{ 
+              opacity: 0, 
+              x: item.side === 'left' ? -100 : 100 
+            }}
+            whileInView={{ 
+              opacity: 1, 
+              x: 0 
+            }}
+            viewport={{ once: false, margin: "-100px", amount: 0.3 }}
+            transition={{ 
+              duration: 0.6, 
+              delay: index * 0.1,
+              ease: [0.25, 0.1, 0.25, 1]
+            }}
+          >
+            <motion.div 
+              className={styles.stepContent}
+              initial={{ opacity: 0, scale: 0.9 }}
+              whileInView={{ opacity: 1, scale: 1 }}
+              viewport={{ once: false, margin: "-100px", amount: 0.3 }}
+              transition={{ 
+                duration: 0.5, 
+                delay: index * 0.1 + 0.2,
+                ease: [0.25, 0.1, 0.25, 1]
+              }}
+            >
               <div className={styles.iconContainer}>
                 <img 
                   src={item.icon} 
@@ -142,10 +169,20 @@ export const TradingJourneyTimeline = () => {
                   {item.description}
                 </p>
               </div>
-            </div>
+            </motion.div>
             {/* Checkpoint circle on the timeline */}
-            <div className={styles.checkpoint}></div>
-          </div>
+            <motion.div 
+              className={styles.checkpoint}
+              initial={{ scale: 0, opacity: 0 }}
+              whileInView={{ scale: 1, opacity: 1 }}
+              viewport={{ once: false, margin: "-100px", amount: 0.3 }}
+              transition={{ 
+                duration: 0.4, 
+                delay: index * 0.1 + 0.3,
+                ease: [0.25, 0.1, 0.25, 1]
+              }}
+            ></motion.div>
+          </motion.div>
         ))}
         
         {/* Animated timeline line */}
