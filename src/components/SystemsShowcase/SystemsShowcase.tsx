@@ -51,14 +51,23 @@ const SystemsShowcase = () => {
           }
         });
       },
-      { threshold: 0.2 }
+      { threshold: 0.05, rootMargin: '50px' }
     );
 
     if (containerRef.current) {
       observer.observe(containerRef.current);
     }
 
-    return () => observer.disconnect();
+    // Fallback: ensure visibility after a delay if intersection doesn't trigger
+    const fallbackTimer = setTimeout(() => {
+      setIsVisible(true);
+      preloadImages();
+    }, 1000);
+
+    return () => {
+      observer.disconnect();
+      clearTimeout(fallbackTimer);
+    };
   }, []);
 
   const preloadImages = () => {
