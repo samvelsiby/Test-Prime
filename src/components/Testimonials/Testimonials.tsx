@@ -498,8 +498,7 @@ const Testimonials = () => {
           style={{
             width: 'min(800px, 90vw)',
             height: 'min(800px, 90vw)',
-            maxWidth: '1200px',
-            maxHeight: '1200px',
+            
             position: 'relative',
             zIndex: 1
           }}
