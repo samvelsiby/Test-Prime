@@ -181,7 +181,7 @@
 .cardTitle {
   font-family: 'Gonero-SemiExpanded', 'Arial Black', sans-serif;
   font-weight: 700;
-  font-size: 1.2rem;
+  font-size: clamp(0.8rem, 1.8vw, 1.1rem);
   text-transform: uppercase;
   letter-spacing: 0.02em;
   line-height: 1.2;
@@ -194,7 +194,7 @@
 
 /* First card (THE PRIME VERSE ADVANTAGE) - bigger font as heading */
 .card:nth-child(1) .cardTitle {
-  font-size: 1.6rem;
+  font-size: clamp(1rem, 2.5vw, 1.4rem);
   font-weight: 800;
   letter-spacing: 0.03em;
   line-height: 1.1;
@@ -255,11 +255,11 @@
 .cardTitleOverlay {
   font-family: 'Gonero ExtBd SemExp', sans-serif;
   font-weight: 700;
-  font-size: clamp(0.9rem, 2.5vw, 1.3rem);
+  font-size: clamp(0.7rem, 1.6vw, 1rem);
   text-transform: uppercase;
   letter-spacing: 0.02em;
   line-height: 1.2;
-  margin: 0 0 clamp(0.5rem, 2vw, 1.5rem) 0;
+  margin: 0 0 clamp(0.4rem, 1.5vw, 1.2rem) 0;
   text-shadow: none;
   text-align: left;
   width: 100%;
@@ -270,12 +270,13 @@
   text-overflow: ellipsis;
   display: -webkit-box;
   -webkit-line-clamp: 2;
+  line-clamp: 2;
   -webkit-box-orient: vertical;
 }
 
 /* First card overlay title - bigger font as heading */
 .card:nth-child(1) .cardTitleOverlay {
-  font-size: clamp(1.1rem, 3vw, 1.8rem);
+  font-size: clamp(0.9rem, 2.2vw, 1.3rem);
   font-weight: 800;
   letter-spacing: 0.03em;
   line-height: 1.1;
@@ -284,7 +285,7 @@
 .cardDescriptionText {
   font-family: 'Gonero ExtBd SemExp', sans-serif;
   font-weight: 300;
-  font-size: clamp(0.65rem, 1.8vw, 0.85rem);
+  font-size: clamp(0.55rem, 1.2vw, 0.75rem);
   line-height: 1.5;
   text-align: left;
   margin: 0;
@@ -454,20 +455,20 @@
   }
   
   .cardTitle {
-    font-size: 1.1rem;
+    font-size: clamp(0.8rem, 1.8vw, 1rem);
   }
   
   /* First card responsive - tablet */
   .card:nth-child(1) .cardTitle {
-    font-size: 1.4rem;
+    font-size: clamp(1rem, 2.2vw, 1.2rem);
   }
   
   .card:nth-child(1) .cardTitleOverlay {
-    font-size: 1.5rem;
+    font-size: clamp(1.1rem, 2.5vw, 1.3rem);
   }
   
   .cardDescription p {
-    font-size: 0.75rem;
+    font-size: clamp(0.6rem, 1.3vw, 0.7rem);
   }
 
   /* Keep images filling on tablet */
@@ -510,16 +511,16 @@
   }
   
   .cardTitle {
-    font-size: 0.95rem;
+    font-size: clamp(0.7rem, 1.6vw, 0.9rem);
   }
   
   /* First card responsive - mobile */
   .card:nth-child(1) .cardTitle {
-    font-size: 1.1rem;
+    font-size: clamp(0.9rem, 2vw, 1rem);
   }
   
   .card:nth-child(1) .cardTitleOverlay {
-    font-size: 1.2rem;
+    font-size: clamp(1rem, 2.2vw, 1.1rem);
   }
 
   /* Stacked reveal setup */
@@ -538,9 +539,9 @@
   .stackedCard.inactive { z-index: 1; }
 
   .stackedCard.active { opacity: 1; transform: translateY(0) scale(1) rotate(0deg); }
-  .stackedCard.next { opacity: 0.9; transform: translateY(20px) scale(0.98) rotate(0.3deg); }
-  .stackedCard.prev { opacity: 0.9; transform: translateY(-20px) scale(0.98) rotate(-0.3deg); }
-  .stackedCard.inactive { opacity: 0.5; transform: translateY(40px) scale(0.96) rotate(0deg); }
+  .stackedCard.next { opacity: 0.9; transform: translateY(clamp(15px, 3vw, 25px)) scale(0.99) rotate(0.2deg); }
+  .stackedCard.prev { opacity: 0.9; transform: translateY(clamp(-15px, -3vw, -25px)) scale(0.99) rotate(-0.2deg); }
+  .stackedCard.inactive { opacity: 0.5; transform: translateY(clamp(30px, 6vw, 50px)) scale(0.97) rotate(0deg); }
 
   /* Keep images filling on mobile */
   .card .cardImageOverlay {

@@ -383,7 +383,7 @@ export default function Home() {
       <Head>
         <title>Prime Verse - More Than Trading</title>
         <meta name="description" content="Prime Verse - More Than Trading" />
-        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" />
         <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
         <link rel="alternate icon" href="/favicon.svg" />
         <link rel="mask-icon" href="/favicon.svg" color="#015BF9" />

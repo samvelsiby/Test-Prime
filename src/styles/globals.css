@@ -33,11 +33,17 @@
     margin: 0;
     padding: 0;
     box-sizing: border-box;
+    /* Prevent double-tap zoom on mobile */
+    touch-action: manipulation;
 }
 
 html {
     background: black;
     scroll-behavior: smooth;
+    /* Prevent zoom on mobile */
+    touch-action: manipulation;
+    -webkit-text-size-adjust: 100%;
+    -ms-text-size-adjust: 100%;
 }
 
 body {
@@ -47,6 +53,10 @@ body {
     background: transparent;
     margin: 0;
     padding: 0;
+    /* Prevent zoom on mobile */
+    touch-action: manipulation;
+    -webkit-text-size-adjust: 100%;
+    -ms-text-size-adjust: 100%;
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -257,10 +267,7 @@ body {
     box-shadow: 0 10px 20px rgba(255, 255, 255, 0.3);
 }
 
-/* Navigation */
-.navbar {
-    /* Styles are handled inline in Navigation component */
-}
+/* Navigation - Styles are handled inline in Navigation component */
 
 /* Mobile controls - show only on mobile */
 .mobile-controls {
