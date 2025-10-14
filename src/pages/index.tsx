@@ -288,6 +288,46 @@ export default function Home() {
   const [isScrolling, setIsScrolling] = useState(false);
 
   useEffect(() => {
+    // Prevent zoom on mobile devices
+    const preventZoom = (e: TouchEvent) => {
+      if (e.touches.length > 1) {
+        e.preventDefault();
+      }
+    };
+
+    const preventDoubleTapZoom = (e: TouchEvent) => {
+      const t2 = e.timeStamp;
+      const t1 = (e.currentTarget as any).lastTouch || t2;
+      const dt = t2 - t1;
+      const fingers = e.touches.length;
+      (e.currentTarget as any).lastTouch = t2;
+
+      if (!dt || dt > 500 || fingers > 1) return;
+      e.preventDefault();
+      (e.target as HTMLElement).click();
+    };
+
+    const preventGestureZoom = (e: Event) => {
+      e.preventDefault();
+    };
+
+    // Add event listeners
+    document.addEventListener('touchstart', preventDoubleTapZoom, { passive: false });
+    document.addEventListener('touchmove', preventZoom, { passive: false });
+    document.addEventListener('gesturestart', preventGestureZoom);
+    document.addEventListener('gesturechange', preventGestureZoom);
+    document.addEventListener('gestureend', preventGestureZoom);
+
+    return () => {
+      document.removeEventListener('touchstart', preventDoubleTapZoom);
+      document.removeEventListener('touchmove', preventZoom);
+      document.removeEventListener('gesturestart', preventGestureZoom);
+      document.removeEventListener('gesturechange', preventGestureZoom);
+      document.removeEventListener('gestureend', preventGestureZoom);
+    };
+  }, []);
+
+  useEffect(() => {
     // Font loading detection
     const loadFonts = async () => {
       try {
@@ -383,7 +423,7 @@ export default function Home() {
       <Head>
         <title>Prime Verse - More Than Trading</title>
         <meta name="description" content="Prime Verse - More Than Trading" />
-        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no, shrink-to-fit=no" />
         <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
         <link rel="alternate icon" href="/favicon.svg" />
         <link rel="mask-icon" href="/favicon.svg" color="#015BF9" />
