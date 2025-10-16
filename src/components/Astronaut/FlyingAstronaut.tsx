@@ -17,6 +17,7 @@ const FlyingAstronaut = () => {
   const rendererRef = useRef<THREE.WebGLRenderer | null>(null);
   const cameraRef = useRef<THREE.PerspectiveCamera | null>(null);
   const astronautRef = useRef<THREE.Object3D | null>(null);
+  const delayTimerRef = useRef<number | null>(null);
 
   useEffect(() => {
     const container = containerRef.current;
@@ -24,26 +25,26 @@ const FlyingAstronaut = () => {
 
     const width = container.clientWidth;
     const height = container.clientHeight;
+    const initialize = () => {
+      const scene = new THREE.Scene();
+      sceneRef.current = scene;
 
-    const scene = new THREE.Scene();
-    sceneRef.current = scene;
+      const camera = new THREE.PerspectiveCamera(45, width / height, 0.1, 2000);
+      camera.position.set(0, 0, 180);
+      cameraRef.current = camera;
 
-    const camera = new THREE.PerspectiveCamera(45, width / height, 0.1, 2000);
-    camera.position.set(0, 0, 180);
-    cameraRef.current = camera;
+      const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+      renderer.setSize(width, height);
+      renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+      rendererRef.current = renderer;
+      container.appendChild(renderer.domElement);
 
-    const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
-    renderer.setSize(width, height);
-    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
-    rendererRef.current = renderer;
-    container.appendChild(renderer.domElement);
-
-    // Lights
-    const ambient = new THREE.AmbientLight(0xffffff, 0.7);
-    scene.add(ambient);
-    const dir = new THREE.DirectionalLight(0xffffff, 0.9);
-    dir.position.set(100, 120, 200);
-    scene.add(dir);
+      // Lights
+      const ambient = new THREE.AmbientLight(0xffffff, 0.7);
+      scene.add(ambient);
+      const dir = new THREE.DirectionalLight(0xffffff, 0.9);
+      dir.position.set(100, 120, 200);
+      scene.add(dir);
 
     // Load MTL (for colors/textures) then OBJ, and force a matte finish without changing colors
     const mtlLoader = new MTLLoader();
@@ -92,85 +93,99 @@ const FlyingAstronaut = () => {
       scene.add(obj);
     };
 
-    // Try to load MTL first; if it fails, load OBJ without it
-    mtlLoader.load(
-      "astronut.mtl",
-      (materials) => {
-        materials.preload();
-        objLoader.setMaterials(materials);
-        objLoader.load(
-          "astronut.obj",
-          onObjLoaded,
-          undefined,
-          (err) => {
-            if (process.env.NODE_ENV !== 'production') {
-              // eslint-disable-next-line no-console
-              console.warn('Failed to load OBJ with MTL', err);
+      // Try to load MTL first; if it fails, load OBJ without it
+      mtlLoader.load(
+        "astronut.mtl",
+        (materials) => {
+          materials.preload();
+          objLoader.setMaterials(materials);
+          objLoader.load(
+            "astronut.obj",
+            onObjLoaded,
+            undefined,
+            (err) => {
+              if (process.env.NODE_ENV !== 'production') {
+                // eslint-disable-next-line no-console
+                console.warn('Failed to load OBJ with MTL', err);
+              }
             }
-          }
-        );
-      },
-      undefined,
-      () => {
-        // No MTL: still load the OBJ and apply matte to its default materials
-        objLoader.load(
-          "astronut.obj",
-          onObjLoaded,
-          undefined,
-          (err) => {
-            if (process.env.NODE_ENV !== 'production') {
-              // eslint-disable-next-line no-console
-              console.warn('Failed to load OBJ /obj/astronut.obj', err);
+          );
+        },
+        undefined,
+        () => {
+          // No MTL: still load the OBJ and apply matte to its default materials
+          objLoader.load(
+            "astronut.obj",
+            onObjLoaded,
+            undefined,
+            (err) => {
+              if (process.env.NODE_ENV !== 'production') {
+                // eslint-disable-next-line no-console
+                console.warn('Failed to load OBJ /obj/astronut.obj', err);
+              }
             }
-          }
-        );
-      }
-    );
+          );
+        }
+      );
 
-    const onResize = () => {
-      if (!container || !cameraRef.current || !rendererRef.current) return;
-      const w = container.clientWidth;
-      const h = container.clientHeight;
-      cameraRef.current.aspect = w / h;
-      cameraRef.current.updateProjectionMatrix();
-      rendererRef.current.setSize(w, h);
+      const onResize = () => {
+        if (!container || !cameraRef.current || !rendererRef.current) return;
+        const w = container.clientWidth;
+        const h = container.clientHeight;
+        cameraRef.current.aspect = w / h;
+        cameraRef.current.updateProjectionMatrix();
+        rendererRef.current.setSize(w, h);
+      };
+      window.addEventListener("resize", onResize);
+
+      // Animation
+      const start = performance.now();
+      const animate = () => {
+        const t = (performance.now() - start) / 1000; // seconds
+        const astronaut = astronautRef.current;
+        if (astronaut) {
+          // Keep same loop time but make perceived motion slower by shortening the path
+          const angularSpeed = 0.25; // keep period ≈ 25.1s (2π/0.25)
+          const angle = t * angularSpeed;
+          const radiusX = Math.min(width, height) * 0.18; // smaller radius → slower apparent speed
+          const bob = Math.sin(t * 0.8) * 3; // gentler bob
+
+          // Horizontal ellipse crossing center (x=0)
+          astronaut.position.x = Math.sin(angle) * radiusX;
+          astronaut.position.y = bob;
+          astronaut.position.z = Math.cos(angle) * 8; // shallower depth
+
+          // Softer spins to match slower feel
+          astronaut.rotation.y += 0.003;
+          astronaut.rotation.x = Math.sin(t * 0.2) * 0.12;
+          astronaut.rotation.z += 0.0015;
+        }
+        renderer.render(scene, camera);
+        rafRef.current = requestAnimationFrame(animate);
+      };
+      animate();
+
+      // Cleanup for initialized resources
+      return () => {
+        window.removeEventListener("resize", onResize);
+      };
     };
-    window.addEventListener("resize", onResize);
 
-    // Animation
-    const start = performance.now();
-    const animate = () => {
-      const t = (performance.now() - start) / 1000; // seconds
-      const astronaut = astronautRef.current;
-      if (astronaut) {
-        // Keep same loop time but make perceived motion slower by shortening the path
-        const angularSpeed = 0.25; // keep period ≈ 25.1s (2π/0.25)
-        const angle = t * angularSpeed;
-        const radiusX = Math.min(width, height) * 0.18; // smaller radius → slower apparent speed
-        const bob = Math.sin(t * 0.8) * 3; // gentler bob
-
-        // Horizontal ellipse crossing center (x=0)
-        astronaut.position.x = Math.sin(angle) * radiusX;
-        astronaut.position.y = bob;
-        astronaut.position.z = Math.cos(angle) * 8; // shallower depth
-
-        // Softer spins to match slower feel
-        astronaut.rotation.y += 0.003;
-        astronaut.rotation.x = Math.sin(t * 0.2) * 0.12;
-        astronaut.rotation.z += 0.0015;
-      }
-      renderer.render(scene, camera);
-      rafRef.current = requestAnimationFrame(animate);
-    };
-    animate();
+    // Delay initialization by 30 seconds
+    delayTimerRef.current = window.setTimeout(() => {
+      initialize();
+    }, 30000);
 
     return () => {
+      if (delayTimerRef.current) {
+        clearTimeout(delayTimerRef.current);
+        delayTimerRef.current = null;
+      }
       if (rafRef.current) cancelAnimationFrame(rafRef.current);
-      window.removeEventListener("resize", onResize);
-      if (renderer) {
-        renderer.dispose();
-        if (renderer.domElement && renderer.domElement.parentNode) {
-          renderer.domElement.parentNode.removeChild(renderer.domElement);
+      if (rendererRef.current) {
+        rendererRef.current.dispose();
+        if (rendererRef.current.domElement && rendererRef.current.domElement.parentNode) {
+          rendererRef.current.domElement.parentNode.removeChild(rendererRef.current.domElement);
         }
       }
     };
