@@ -2,6 +2,7 @@
 import { useEffect, useRef } from "react";
 import * as THREE from "three";
 import { OBJLoader } from "three/examples/jsm/loaders/OBJLoader.js";
+import { MTLLoader } from "three/examples/jsm/loaders/MTLLoader.js";
 
 /**
  * Renders a flying astronaut OBJ over the hero section.
@@ -40,50 +41,89 @@ const FlyingAstronaut = () => {
     // Lights
     const ambient = new THREE.AmbientLight(0xffffff, 0.7);
     scene.add(ambient);
-    const dir = new THREE.DirectionalLight(0x99bbff, 0.9);
+    const dir = new THREE.DirectionalLight(0xffffff, 0.9);
     dir.position.set(100, 120, 200);
     scene.add(dir);
 
-    // Load OBJ
-    const loader = new OBJLoader();
-    loader.load(
-      "/obj/astronut.obj",
-      (obj) => {
-        // Normalize scale and orientation
-        obj.traverse((child: any) => {
-          if (child.isMesh) {
-            child.material = new THREE.MeshPhongMaterial({
-              color: 0x9ab3ff,
-              shininess: 40,
-              specular: 0x3355ff,
-            });
-            child.castShadow = false;
-            child.receiveShadow = false;
+    // Load MTL (for colors/textures) then OBJ, and force a matte finish without changing colors
+    const mtlLoader = new MTLLoader();
+    const objLoader = new OBJLoader();
+    mtlLoader.setPath("/obj/");
+    objLoader.setPath("/obj/");
+
+    const applyMatte = (mat: any) => {
+      if (!mat) return;
+      if ("shininess" in mat) mat.shininess = 0; // Phong
+      if ("specular" in mat) mat.specular = new THREE.Color(0x000000);
+      if ("reflectivity" in mat) mat.reflectivity = 0;
+      if ("metalness" in mat) mat.metalness = 0; // Standard/PBR
+      if ("roughness" in mat) mat.roughness = 1;
+      if ("envMap" in mat) mat.envMap = null;
+      if ("needsUpdate" in mat) mat.needsUpdate = true;
+    };
+
+    const onObjLoaded = (obj: THREE.Object3D) => {
+      // Keep original materials/colors and only make them matte
+      obj.traverse((child: any) => {
+        if (child.isMesh) {
+          if (Array.isArray(child.material)) {
+            child.material.forEach(applyMatte);
+          } else {
+            applyMatte(child.material);
           }
-        });
+          child.castShadow = false;
+          child.receiveShadow = false;
+        }
+      });
 
-        const box = new THREE.Box3().setFromObject(obj);
-        const size = new THREE.Vector3();
-        box.getSize(size);
-        const targetSize = 60; // desired normalized size
-        const scale = targetSize / Math.max(size.x, size.y, size.z || 1);
-        obj.scale.setScalar(scale);
+      const box = new THREE.Box3().setFromObject(obj);
+      const size = new THREE.Vector3();
+      box.getSize(size);
+      const targetSize = 25; // desired normalized size
+      const scale = targetSize / Math.max(size.x, size.y, size.z || 1);
+      obj.scale.setScalar(scale);
 
-        // Center
-        const center = new THREE.Vector3();
-        box.getCenter(center);
-        obj.position.sub(center.multiplyScalar(scale));
+      // Center
+      const center = new THREE.Vector3();
+      box.getCenter(center);
+      obj.position.sub(center.multiplyScalar(scale));
 
-        astronautRef.current = obj;
-        scene.add(obj);
+      astronautRef.current = obj;
+      scene.add(obj);
+    };
+
+    // Try to load MTL first; if it fails, load OBJ without it
+    mtlLoader.load(
+      "astronut.mtl",
+      (materials) => {
+        materials.preload();
+        objLoader.setMaterials(materials);
+        objLoader.load(
+          "astronut.obj",
+          onObjLoaded,
+          undefined,
+          (err) => {
+            if (process.env.NODE_ENV !== 'production') {
+              // eslint-disable-next-line no-console
+              console.warn('Failed to load OBJ with MTL', err);
+            }
+          }
+        );
       },
       undefined,
-      (err) => {
-        // Log once to help diagnose asset path issues in dev
-        if (process.env.NODE_ENV !== 'production') {
-          // eslint-disable-next-line no-console
-          console.warn('Failed to load OBJ /obj/astronut.obj', err);
-        }
+      () => {
+        // No MTL: still load the OBJ and apply matte to its default materials
+        objLoader.load(
+          "astronut.obj",
+          onObjLoaded,
+          undefined,
+          (err) => {
+            if (process.env.NODE_ENV !== 'production') {
+              // eslint-disable-next-line no-console
+              console.warn('Failed to load OBJ /obj/astronut.obj', err);
+            }
+          }
+        );
       }
     );
 
@@ -103,20 +143,21 @@ const FlyingAstronaut = () => {
       const t = (performance.now() - start) / 1000; // seconds
       const astronaut = astronautRef.current;
       if (astronaut) {
-        // Slower, center-crossing path
-        const radiusX = Math.min(width, height) * 0.30;
-        const angularSpeed = 0.25; // radians per second (slower)
+        // Keep same loop time but make perceived motion slower by shortening the path
+        const angularSpeed = 0.25; // keep period ≈ 25.1s (2π/0.25)
         const angle = t * angularSpeed;
-        const bob = Math.sin(t * 1.2) * 6;
+        const radiusX = Math.min(width, height) * 0.18; // smaller radius → slower apparent speed
+        const bob = Math.sin(t * 0.8) * 3; // gentler bob
 
-        // Horizontal oscillation that passes through exact center (x=0).
+        // Horizontal ellipse crossing center (x=0)
         astronaut.position.x = Math.sin(angle) * radiusX;
-        astronaut.position.y = bob; // keep small vertical bob so it still crosses center
-        astronaut.position.z = Math.cos(angle) * 15;
-        // Continuous self-spin while moving
-        astronaut.rotation.y += 0.008;
-        astronaut.rotation.x = Math.sin(t * 0.25) * 0.2;
-        astronaut.rotation.z += 0.004;
+        astronaut.position.y = bob;
+        astronaut.position.z = Math.cos(angle) * 8; // shallower depth
+
+        // Softer spins to match slower feel
+        astronaut.rotation.y += 0.003;
+        astronaut.rotation.x = Math.sin(t * 0.2) * 0.12;
+        astronaut.rotation.z += 0.0015;
       }
       renderer.render(scene, camera);
       rafRef.current = requestAnimationFrame(animate);
