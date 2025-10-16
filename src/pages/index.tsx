@@ -7,6 +7,7 @@ import Roadmap from '../components/Roadmap/Roadmap';
 import FAQ from '../components/FAQ/FAQ';
 import Footer from '../components/Footer/Footer';
 import DotGrid from '../components/DotGrid/DotGrid';
+import FlyingAstronaut from '../components/Astronaut/FlyingAstronaut';
 
 // Particle System Component
 const ParticleSystem = () => {
@@ -399,6 +400,9 @@ export default function Home() {
 
         {/* Particles only in non-video areas */}
         <ParticleSystem />
+
+        {/* Flying Astronaut overlay */}
+        <FlyingAstronaut />
 
         {/* Content Overlay */}
         <div className="content-overlay">
