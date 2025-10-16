@@ -47,7 +47,7 @@ const FlyingAstronaut = () => {
     // Load OBJ
     const loader = new OBJLoader();
     loader.load(
-      "/obj/13 Astronaut eat donut.obj",
+      "/obj/astronut.obj",
       (obj) => {
         // Normalize scale and orientation
         obj.traverse((child: any) => {
@@ -78,8 +78,12 @@ const FlyingAstronaut = () => {
         scene.add(obj);
       },
       undefined,
-      () => {
-        // silently fail; keeps app running if asset missing
+      (err) => {
+        // Log once to help diagnose asset path issues in dev
+        if (process.env.NODE_ENV !== 'production') {
+          // eslint-disable-next-line no-console
+          console.warn('Failed to load OBJ /obj/astronut.obj', err);
+        }
       }
     );
 
@@ -99,16 +103,20 @@ const FlyingAstronaut = () => {
       const t = (performance.now() - start) / 1000; // seconds
       const astronaut = astronautRef.current;
       if (astronaut) {
-        const radius = Math.min(width, height) * 0.22; // path radius
-        const speed = 0.25; // revolutions per second
-        const angle = t * Math.PI * 2 * speed;
-        const bob = Math.sin(t * 2) * 8;
+        // Slower, center-crossing path
+        const radiusX = Math.min(width, height) * 0.30;
+        const angularSpeed = 0.25; // radians per second (slower)
+        const angle = t * angularSpeed;
+        const bob = Math.sin(t * 1.2) * 6;
 
-        astronaut.position.x = Math.cos(angle) * radius;
-        astronaut.position.y = Math.sin(angle) * radius * 0.6 + bob;
-        astronaut.position.z = Math.sin(angle * 0.8) * 20;
-        astronaut.rotation.y += 0.01;
-        astronaut.rotation.x = Math.sin(t * 0.6) * 0.3;
+        // Horizontal oscillation that passes through exact center (x=0).
+        astronaut.position.x = Math.sin(angle) * radiusX;
+        astronaut.position.y = bob; // keep small vertical bob so it still crosses center
+        astronaut.position.z = Math.cos(angle) * 15;
+        // Continuous self-spin while moving
+        astronaut.rotation.y += 0.008;
+        astronaut.rotation.x = Math.sin(t * 0.25) * 0.2;
+        astronaut.rotation.z += 0.004;
       }
       renderer.render(scene, camera);
       rafRef.current = requestAnimationFrame(animate);
