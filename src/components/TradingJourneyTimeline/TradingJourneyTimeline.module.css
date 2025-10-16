@@ -285,8 +285,9 @@
   .checkpoint {
     width: 12px;
     height: 12px;
-    left: 1.5rem;
-    transform: translateY(-50%);
+    /* Center the checkpoint on the left rail (rail at 1.5rem, width 4px) */
+    left: calc(1.5rem + 2px);
+    transform: translate(-50%, -50%);
   }
   
   .checkpoint::before {
@@ -356,8 +357,9 @@
   .checkpoint {
     width: 10px;
     height: 10px;
-    left: 1rem;
-    transform: translateY(-50%);
+    /* Center the checkpoint on the left rail (rail at 1rem, width 3px) */
+    left: calc(1rem + 1.5px);
+    transform: translate(-50%, -50%);
   }
   
   .checkpoint::before {
