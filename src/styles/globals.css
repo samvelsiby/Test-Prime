@@ -375,9 +375,6 @@ body {
 
 /* Responsive Design */
 @media (max-width: 768px) {
-    /* Disable smooth scrolling on mobile to reduce scroll jitter */
-    html { scroll-behavior: auto; }
-
     .hero-content {
         max-width: 90%;
         padding: 0 20px;
@@ -419,10 +416,6 @@ body {
 }
 
 @media (max-width: 480px) {
-    /* Reduce transform-based animations on small phones to prevent wobble */
-    section { transform: none; }
-    section.unified-flow-visible { transform: none; }
-
     .hero-content {
         max-width: 95%;
         padding: 0 15px;
