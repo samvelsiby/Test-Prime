@@ -125,7 +125,7 @@
 
 .checkpoint {
   position: absolute;
-  left: 50%;
+  left: calc(50% - 8px);
   top: 50%;
   transform: translate(-50%, -50%);
   width: 16px;
@@ -200,16 +200,13 @@
     min-height: 150px;
   }
   
-  .timelineItem.left {
-    padding-left: 1.5rem;
-  }
-  
-  .timelineItem.right {
-    padding-right: 1.5rem;
-  }
+  /* Remove extra side padding so content doesn't cross the center line */
+  .timelineItem.left { padding-left: 0; }
+  .timelineItem.right { padding-right: 0; }
   
   .stepContent {
-    max-width: 50%;
+    /* Keep each side inside its half even with inner gaps */
+    max-width: calc(50% - 1rem);
     gap: 1.5rem;
     flex-direction: column;
     align-items: center;
@@ -260,13 +257,19 @@
     max-width: 100%;
     gap: 1.5rem;
     flex-direction: column !important;
-    align-items: center;
+    align-items: flex-start; /* left-align content on mobile/tablet */
   }
   
   .left .stepContent,
   .right .stepContent {
     flex-direction: column !important;
-    align-items: center;
+    align-items: flex-start; /* force left alignment for both sides */
+  }
+
+  /* Ensure text is left-aligned for both sides on mobile/tablet */
+  .left .textContent,
+  .right .textContent {
+    text-align: left;
   }
   
   .iconContainer {
@@ -282,8 +285,9 @@
   .checkpoint {
     width: 12px;
     height: 12px;
-    left: 1.5rem;
-    transform: translateY(-50%);
+    /* Center the checkpoint on the left rail (rail at 1.5rem, width 4px) */
+    left: calc(1.5rem + 2px);
+    transform: translate(-50%, -50%);
   }
   
   .checkpoint::before {
@@ -293,7 +297,7 @@
   
   .absoluteLine {
     width: 4px;
-    left: 1.5rem;
+    left: 1.5rem; /* rail anchor */
     transform: none;
   }
   
@@ -353,8 +357,9 @@
   .checkpoint {
     width: 10px;
     height: 10px;
-    left: 1rem;
-    transform: translateY(-50%);
+    /* Center the checkpoint on the left rail (rail at 1rem, width 3px) */
+    left: calc(0.75rem);
+    transform: translate(-50%, -50%);
   }
   
   .checkpoint::before {

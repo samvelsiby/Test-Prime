@@ -39,6 +39,7 @@ const SystemsShowcase = () => {
   const [imagesLoaded, setImagesLoaded] = useState(false);
   const containerRef = useRef<HTMLDivElement>(null);
   const cardsRef = useRef<(HTMLDivElement | null)[]>([]);
+  const justOpenedRef = useRef<boolean>(false);
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -144,12 +145,34 @@ const SystemsShowcase = () => {
   }, [selectedSystem]);
 
   const handleCardClick = (systemId: number) => {
-    setSelectedSystem(selectedSystem === systemId ? null : systemId);
+    if (selectedSystem === systemId) {
+      setSelectedSystem(null);
+      return;
+    }
+    justOpenedRef.current = true;
+    setSelectedSystem(systemId);
+    // Prevent the same click that opens from immediately closing via the global listener
+    setTimeout(() => {
+      justOpenedRef.current = false;
+    }, 0);
   };
 
   const handleCloseClick = () => {
     setSelectedSystem(null);
   };
+
+  // Close on any click anywhere when a card is open
+  useEffect(() => {
+    if (selectedSystem === null) return;
+
+    const handleAnyClick = (e: MouseEvent) => {
+      if (justOpenedRef.current) return;
+      setSelectedSystem(null);
+    };
+
+    document.addEventListener('click', handleAnyClick, { capture: true });
+    return () => document.removeEventListener('click', handleAnyClick, { capture: true } as any);
+  }, [selectedSystem]);
 
   return (
     <div ref={containerRef} className={`${styles.container} ${isVisible ? styles.visible : ''}`}>
