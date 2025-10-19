@@ -27,8 +27,10 @@ const Navigation = () => {
       padding: '0.4rem 1.5rem',
       maxWidth: '900px',
       width: 'calc(100% - 2rem)',
+      minWidth: '280px',
       boxShadow: '0 8px 32px rgba(0, 0, 0, 0.3), inset 0 1px 1px rgba(255, 255, 255, 0.1)',
       boxSizing: 'border-box',
+      overflow: 'hidden',
     }}>
       <div style={{
         display: 'flex',

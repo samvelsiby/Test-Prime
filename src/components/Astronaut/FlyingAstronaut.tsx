@@ -1,5 +1,5 @@
 "use client";
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import * as THREE from "three";
 import { OBJLoader } from "three/examples/jsm/loaders/OBJLoader.js";
 import { MTLLoader } from "three/examples/jsm/loaders/MTLLoader.js";
@@ -18,10 +18,24 @@ const FlyingAstronaut = () => {
   const cameraRef = useRef<THREE.PerspectiveCamera | null>(null);
   const astronautRef = useRef<THREE.Object3D | null>(null);
   const delayTimerRef = useRef<number | null>(null);
+  const [isMobile, setIsMobile] = useState(false);
+  const [shouldRender, setShouldRender] = useState(false);
 
   useEffect(() => {
+    // Detect mobile device and performance capabilities
+    const checkMobileAndPerformance = () => {
+      const isMobileDevice = window.innerWidth <= 768 || /Android|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+      const isLowEndDevice = navigator.hardwareConcurrency && navigator.hardwareConcurrency <= 2;
+      const shouldSkipOnMobile = isMobileDevice && isLowEndDevice;
+      
+      setIsMobile(isMobileDevice);
+      setShouldRender(!shouldSkipOnMobile);
+      
+      return !shouldSkipOnMobile;
+    };
+
     const container = containerRef.current;
-    if (!container) return;
+    if (!container || !checkMobileAndPerformance()) return;
 
     const width = container.clientWidth;
     const height = container.clientHeight;
@@ -29,13 +43,20 @@ const FlyingAstronaut = () => {
       const scene = new THREE.Scene();
       sceneRef.current = scene;
 
-      const camera = new THREE.PerspectiveCamera(45, width / height, 0.1, 2000);
-      camera.position.set(0, 0, 180);
+      // Mobile-optimized camera settings
+      const fov = isMobile ? 60 : 45; // Wider field of view on mobile
+      const camera = new THREE.PerspectiveCamera(fov, width / height, 0.1, 2000);
+      camera.position.set(0, 0, isMobile ? 220 : 180); // Further back on mobile
       cameraRef.current = camera;
 
-      const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+      // Mobile-optimized renderer settings
+      const renderer = new THREE.WebGLRenderer({ 
+        antialias: !isMobile, // Disable antialiasing on mobile for performance
+        alpha: true,
+        powerPreference: isMobile ? "low-power" : "high-performance"
+      });
       renderer.setSize(width, height);
-      renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+      renderer.setPixelRatio(isMobile ? 1 : Math.min(window.devicePixelRatio, 2)); // Lower pixel ratio on mobile
       rendererRef.current = renderer;
       container.appendChild(renderer.domElement);
 
@@ -80,7 +101,7 @@ const FlyingAstronaut = () => {
       const box = new THREE.Box3().setFromObject(obj);
       const size = new THREE.Vector3();
       box.getSize(size);
-      const targetSize = 25; // desired normalized size
+      const targetSize = isMobile ? 20 : 25; // Smaller on mobile
       const scale = targetSize / Math.max(size.x, size.y, size.z || 1);
       obj.scale.setScalar(scale);
 
@@ -138,32 +159,43 @@ const FlyingAstronaut = () => {
       };
       window.addEventListener("resize", onResize);
 
-      // Animation
+      // Mobile-optimized animation
       const start = performance.now();
-      const animate = () => {
-        const t = (performance.now() - start) / 1000; // seconds
+      let lastFrameTime = 0;
+      const targetFPS = isMobile ? 30 : 60; // Lower FPS on mobile
+      const frameInterval = 1000 / targetFPS;
+      
+      const animate = (currentTime: number) => {
+        // Throttle animation on mobile
+        if (isMobile && currentTime - lastFrameTime < frameInterval) {
+          rafRef.current = requestAnimationFrame(animate);
+          return;
+        }
+        lastFrameTime = currentTime;
+        
+        const t = (currentTime - start) / 1000; // seconds
         const astronaut = astronautRef.current;
         if (astronaut) {
-          // Keep same loop time but make perceived motion slower by shortening the path
-          const angularSpeed = 0.25; // keep period ≈ 25.1s (2π/0.25)
+          // Slower, simpler animation on mobile
+          const angularSpeed = isMobile ? 0.15 : 0.25; // Slower on mobile
           const angle = t * angularSpeed;
-          const radiusX = Math.min(width, height) * 0.18; // smaller radius → slower apparent speed
-          const bob = Math.sin(t * 0.8) * 3; // gentler bob
+          const radiusX = Math.min(width, height) * (isMobile ? 0.15 : 0.18); // Smaller radius on mobile
+          const bob = Math.sin(t * (isMobile ? 0.5 : 0.8)) * (isMobile ? 2 : 3); // Gentler bob on mobile
 
           // Horizontal ellipse crossing center (x=0)
           astronaut.position.x = Math.sin(angle) * radiusX;
           astronaut.position.y = bob;
-          astronaut.position.z = Math.cos(angle) * 8; // shallower depth
+          astronaut.position.z = Math.cos(angle) * (isMobile ? 6 : 8); // Shallower depth on mobile
 
-          // Softer spins to match slower feel
-          astronaut.rotation.y += 0.003;
-          astronaut.rotation.x = Math.sin(t * 0.2) * 0.12;
-          astronaut.rotation.z += 0.0015;
+          // Simpler rotation on mobile
+          astronaut.rotation.y += isMobile ? 0.002 : 0.003;
+          astronaut.rotation.x = Math.sin(t * (isMobile ? 0.1 : 0.2)) * (isMobile ? 0.08 : 0.12);
+          astronaut.rotation.z += isMobile ? 0.001 : 0.0015;
         }
         renderer.render(scene, camera);
         rafRef.current = requestAnimationFrame(animate);
       };
-      animate();
+      rafRef.current = requestAnimationFrame(animate);
 
       // Cleanup for initialized resources
       return () => {
@@ -171,10 +203,11 @@ const FlyingAstronaut = () => {
       };
     };
 
-    // Delay initialization by 30 seconds
+    // Shorter delay on mobile, longer on desktop
+    const delay = isMobile ? 5000 : 30000; // 5 seconds on mobile, 30 seconds on desktop
     delayTimerRef.current = window.setTimeout(() => {
       initialize();
-    }, 30000);
+    }, delay);
 
     return () => {
       if (delayTimerRef.current) {
@@ -191,6 +224,11 @@ const FlyingAstronaut = () => {
     };
   }, []);
 
+  // Don't render on very low-end mobile devices
+  if (!shouldRender) {
+    return null;
+  }
+
   return (
     <div
       ref={containerRef}
@@ -199,6 +237,13 @@ const FlyingAstronaut = () => {
         inset: 0,
         pointerEvents: "none",
         zIndex: 0,
+        // Mobile-specific positioning adjustments
+        ...(isMobile && {
+          top: "10%",
+          bottom: "10%",
+          left: "5%",
+          right: "5%",
+        }),
       }}
     />
   );

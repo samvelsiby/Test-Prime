@@ -4,6 +4,8 @@
   margin: 0 auto;
   padding: 2rem;
   background: transparent;
+  overflow: hidden;
+  box-sizing: border-box;
 }
 
 .cardGrid {
@@ -12,6 +14,9 @@
   grid-template-rows: repeat(3, minmax(180px, 220px));
   gap: 1rem;
   width: 100%;
+  max-width: 100%;
+  overflow: hidden;
+  box-sizing: border-box;
 }
 
 /* Card size variations to match the image layout */
@@ -270,6 +275,7 @@
   text-overflow: ellipsis;
   display: -webkit-box;
   -webkit-line-clamp: 2;
+  line-clamp: 2;
   -webkit-box-orient: vertical;
 }
 
@@ -498,9 +504,15 @@
 }
 
 @media (max-width: 480px) {
+  .collageContainer {
+    padding: 1rem;
+    overflow: hidden;
+  }
+  
   .cardGrid {
     grid-template-columns: 1fr;
     grid-template-rows: repeat(10, minmax(180px, 220px));
+    overflow: hidden;
   }
   
   .cardContent {
