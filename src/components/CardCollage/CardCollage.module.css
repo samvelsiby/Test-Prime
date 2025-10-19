@@ -511,27 +511,28 @@
   
   .cardGrid {
     grid-template-columns: 1fr;
-    grid-template-rows: repeat(10, minmax(180px, 220px));
+    grid-template-rows: repeat(10, minmax(120px, 150px));
     overflow: hidden;
   }
   
   .cardContent {
-    padding: 1rem;
+    padding: 0.8rem;
     font-family: 'Gonero ExtBd SemExp', sans-serif;
     font-weight: 600;
   }
   
   .cardTitle {
-    font-size: 0.95rem;
+    font-size: 0.85rem;
+    line-height: 1.1;
   }
   
   /* First card responsive - mobile */
   .card:nth-child(1) .cardTitle {
-    font-size: 1.1rem;
+    font-size: 0.95rem;
   }
   
   .card:nth-child(1) .cardTitleOverlay {
-    font-size: 1.2rem;
+    font-size: 1rem;
   }
 
   /* Stacked reveal setup */
@@ -577,5 +578,48 @@
       rgba(0, 0, 0, 0.75) 60%,
       rgba(0, 0, 0, 0.55) 100%
     ) !important;
+  }
+
+  /* Mobile description styling */
+  .cardDescription {
+    padding: 0.8rem;
+  }
+  
+  .cardDescription p {
+    font-size: 0.7rem;
+    line-height: 1.3;
+  }
+}
+
+/* Extra small phones - even smaller cards */
+@media (max-width: 360px) {
+  .cardGrid {
+    grid-template-rows: repeat(10, minmax(100px, 130px));
+    gap: 0.5rem;
+  }
+  
+  .cardContent {
+    padding: 0.6rem;
+  }
+  
+  .cardTitle {
+    font-size: 0.75rem;
+  }
+  
+  .card:nth-child(1) .cardTitle {
+    font-size: 0.85rem;
+  }
+  
+  .card:nth-child(1) .cardTitleOverlay {
+    font-size: 0.9rem;
+  }
+  
+  .cardDescription {
+    padding: 0.6rem;
+  }
+  
+  .cardDescription p {
+    font-size: 0.65rem;
+    line-height: 1.2;
   }
 }
