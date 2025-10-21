@@ -104,6 +104,11 @@ const Footer: React.FC = () => {
               </span>
             </div>
           </div>
+          <div className={styles.builtBy}>
+            <p>
+              Built by <a href="https://www.rtstics.com" target="_blank" rel="noopener noreferrer" className={styles.builtByLink}>www.rtstics.com</a>
+            </p>
+          </div>
         </div>
       </div>
     </footer>

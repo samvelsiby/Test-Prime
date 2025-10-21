@@ -212,6 +212,32 @@
   font-style: italic;
 }
 
+.builtBy {
+  text-align: center;
+  margin-top: 1.5rem;
+  padding-top: 1rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.builtBy p {
+  font-family: 'Gonero-thin', Arial, sans-serif;
+  font-size: 0.85rem;
+  color: rgba(255, 255, 255, 0.5);
+  margin: 0;
+}
+
+.builtByLink {
+  color: #6a47fe;
+  text-decoration: none;
+  font-weight: 500;
+  transition: all 0.3s ease;
+}
+
+.builtByLink:hover {
+  color: #8b6cff;
+  text-decoration: underline;
+}
+
 /* Responsive Design */
 @media (max-width: 1024px) {
   .content {
