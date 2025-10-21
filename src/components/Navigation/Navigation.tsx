@@ -30,7 +30,6 @@ const Navigation = () => {
       minWidth: '280px',
       boxShadow: '0 8px 32px rgba(0, 0, 0, 0.3), inset 0 1px 1px rgba(255, 255, 255, 0.1)',
       boxSizing: 'border-box',
-      overflow: 'hidden',
     }}>
       <div style={{
         display: 'flex',
@@ -69,7 +68,7 @@ const Navigation = () => {
               boxShadow: '0 4px 12px rgba(59, 130, 246, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.5)',
               whiteSpace: 'nowrap',
             }}
-            onClick={() => window.open('https://getformly.app/vJXW3N', '_blank')}
+            onClick={() => window.open('https://prime-verse.mn.co/sign_in?from=https%3A%2F%2Fprime-verse.mn.co%2F', '_blank')}
           >
             Log in
           </button>
@@ -206,7 +205,7 @@ const Navigation = () => {
                 e.currentTarget.style.transform = 'translateY(0)';
                 e.currentTarget.style.boxShadow = '0 4px 12px rgba(59, 130, 246, 0.3)';
               }}
-              onClick={() => window.open('https://getformly.app/vJXW3N', '_blank')}
+              onClick={() => window.open('https://prime-verse.mn.co/sign_in?from=https%3A%2F%2Fprime-verse.mn.co%2F', '_blank')}
             >
               Log in
             </button>
